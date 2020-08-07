@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.blog.Dao.admin.ITypeDao">
+
+    <update id="saveType" parameterType="com.wang.blog.Bean.Type">
+        insert into t_type (name) values (#{name})
+    </update>
+    <update id="updateType">
+        update t_type set name = #{name} where id = #{id}
+    </update>
+    <delete id="deleteType">
+        delete from t_type where id = #{id};
+    </delete>
+
+    <select id="getTypeById" parameterType="long" resultType="com.wang.blog.Bean.Type">
+        select * from t_type where id = #{id}
+    </select>
+
+    <select id="listType" parameterType="int" resultType="com.wang.blog.Bean.Type">
+        select * from t_type order by id limit #{start},#{end}
+    </select>
+    <select id="getTypeCount" resultType="java.lang.Integer">
+        select count(*) from t_type
+    </select>
+    <select id="getTypeByName" parameterType="string" resultType="com.wang.blog.Bean.Type">
+        select * from t_type where name = #{name}
+    </select>
+    <select id="getTypeAll" resultType="com.wang.blog.Bean.Type">
+        select * from t_type
+    </select>
+    <select id="listTypeByCount" resultType="com.wang.blog.Bean.Type">
+        select t.id,t.name,count(tb.id) as count from t_type t
+            inner join t_blog tb on t.id = tb.type_id  group by tb.type_id limit #{start},#{end}
+
+    </select>
+
+<!--    <select id="">-->
+<!--        select t.id,t.name,count(tb.id) as count from t_type t-->
+<!--            inner join t_blog tb on t.id = tb.type_id  group by tb.type_id-->
+
+
+<!--#         select count(id) from t_blog group by type_id-->
+<!--    </select>-->
+
+
+</mapper>

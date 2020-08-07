@@ -1,0 +1,13 @@
+2020-05-07 19:10:55.812  INFO 43184 --- [main] com.wang.blog.BlogApplicationTests       : Starting BlogApplicationTests on wangsiyuan with PID 43184 (started by wangsiyuan in C:\Users\wangsiyuan\Desktop\Java\blog)
+2020-05-07 19:10:55.822 DEBUG 43184 --- [main] com.wang.blog.BlogApplicationTests       : Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2020-05-07 19:10:55.822  INFO 43184 --- [main] com.wang.blog.BlogApplicationTests       : The following profiles are active: dev
+2020-05-07 19:11:00.801  INFO 43184 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-07 19:11:01.176  INFO 43184 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-05-07 19:11:01.953  INFO 43184 --- [main] com.wang.blog.BlogApplicationTests       : Started BlogApplicationTests in 7.248 seconds (JVM running for 9.258)
+2020-05-07 19:11:08.397  INFO 43184 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2020-05-07 19:11:08.412 DEBUG 43184 --- [main] c.w.b.D.ICommentDao.ListCommentByBlogId  : ==>  Preparing: select * from t_comment where blog_id = ? order by create_time 
+2020-05-07 19:11:08.709 DEBUG 43184 --- [main] c.w.b.D.ICommentDao.ListCommentByBlogId  : ==> Parameters: 26(Long)
+2020-05-07 19:11:08.836 DEBUG 43184 --- [main] c.w.b.D.ICommentDao.ListCommentByBlogId  : <==      Total: 0
+2020-05-07 19:11:08.930  INFO 43184 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-07 19:11:08.932  INFO 43184 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2020-05-07 19:11:08.949  INFO 43184 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

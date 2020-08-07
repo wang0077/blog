@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.blog.Dao.ICommentDao">
+
+    <update id="saveComment">
+        insert into t_comment(admin_comment,
+                              avatar,
+                              content,
+                              create_time,
+                              email,
+                              nickname,
+                              blog_id,
+                              parent_comment_id)
+                              VALUES
+                             (
+                                #{comment.adminComment},
+                                #{comment.avatar},
+                                #{comment.content},
+                                #{comment.createTime},
+                                #{comment.email},
+                                #{comment.nickname},
+                                #{comment.blogId},
+                                #{comment.patentId}
+                             )
+    </update>
+    <update id="DeleteComment">
+        update t_comment set content = #{content} where id = #{cid} and blog_id = #{bid}
+    </update>
+    <delete id="DeleteCommentById">
+        delete from t_comment where id = #{id}
+    </delete>
+
+    <resultMap id="comment" type="com.wang.blog.Bean.Comment">
+        <id column="id" property="id"/>
+        <result column="admin_comment" property="adminComment"/>
+        <result column="avatar" property="avatar"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="email" property="email"/>
+        <result column="nickname" property="nickname"/>
+        <result column="blog_id" property="blogId"/>
+        <result column="parent_comment_id" property="patentId"/>
+    </resultMap>
+
+    <select id="ListCommentByBlogId" resultMap="comment">
+        select * from t_comment where blog_id = #{id} order by create_time
+    </select>
+
+</mapper>

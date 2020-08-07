@@ -1,0 +1,19 @@
+2020-04-12 00:48:07.623  INFO 38252 --- [restartedMain] com.wang.blog.BlogApplication            : Starting BlogApplication on wangsiyuan with PID 38252 (C:\Users\wangsiyuan\Desktop\Java\blog\target\classes started by wangsiyuan in C:\Users\wangsiyuan\Desktop\Java\blog)
+2020-04-12 00:48:07.625  INFO 38252 --- [restartedMain] com.wang.blog.BlogApplication            : The following profiles are active: pro
+2020-04-12 00:48:08.483  WARN 38252 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.wang.blog.Mapper]' package. Please check your configuration.
+2020-04-12 00:48:09.584  WARN 38252 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-04-12 00:48:09.913  INFO 38252 --- [restartedMain] com.wang.blog.BlogApplication            : Started BlogApplication in 2.835 seconds (JVM running for 5.285)
+2020-04-12 00:49:34.962  INFO 41460 --- [restartedMain] com.wang.blog.BlogApplication            : Starting BlogApplication on wangsiyuan with PID 41460 (C:\Users\wangsiyuan\Desktop\Java\blog\target\classes started by wangsiyuan in C:\Users\wangsiyuan\Desktop\Java\blog)
+2020-04-12 00:49:34.965  INFO 41460 --- [restartedMain] com.wang.blog.BlogApplication            : The following profiles are active: pro
+2020-04-12 00:49:36.057  WARN 41460 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.wang.blog.Mapper]' package. Please check your configuration.
+2020-04-12 00:49:37.100  WARN 41460 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-04-12 00:49:37.450  INFO 41460 --- [restartedMain] com.wang.blog.BlogApplication            : Started BlogApplication in 3.133 seconds (JVM running for 5.746)
+2020-04-12 00:50:27.355  INFO 37092 --- [restartedMain] com.wang.blog.BlogApplication            : Starting BlogApplication on wangsiyuan with PID 37092 (C:\Users\wangsiyuan\Desktop\Java\blog\target\classes started by wangsiyuan in C:\Users\wangsiyuan\Desktop\Java\blog)
+2020-04-12 00:50:27.359  INFO 37092 --- [restartedMain] com.wang.blog.BlogApplication            : The following profiles are active: pro
+2020-04-12 00:50:28.361  WARN 37092 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.wang.blog.Mapper]' package. Please check your configuration.
+2020-04-12 00:50:29.476  WARN 37092 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-04-12 00:50:29.827  INFO 37092 --- [restartedMain] com.wang.blog.BlogApplication            : Started BlogApplication in 3.035 seconds (JVM running for 5.485)
+2020-04-12 00:57:15.643  INFO 41072 --- [restartedMain] com.wang.blog.BlogApplication            : Starting BlogApplication on wangsiyuan with PID 41072 (C:\Users\wangsiyuan\Desktop\Java\blog\target\classes started by wangsiyuan in C:\Users\wangsiyuan\Desktop\Java\blog)
+2020-04-12 00:57:15.650  INFO 41072 --- [restartedMain] com.wang.blog.BlogApplication            : The following profiles are active: pro
+2020-04-12 00:57:17.134  WARN 41072 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.wang.blog.Mapper]' package. Please check your configuration.
+2020-04-12 00:57:18.500  INFO 41072 --- [restartedMain] com.wang.blog.BlogApplication            : Started BlogApplication in 3.83 seconds (JVM running for 6.793)

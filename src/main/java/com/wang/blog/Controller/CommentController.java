@@ -1,0 +1,45 @@
+package com.wang.blog.Controller;
+
+import com.wang.blog.Bean.Comment;
+import com.wang.blog.Bean.User;
+import com.wang.blog.Service.ICommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
+
+@Controller
+public class CommentController {
+
+    @Autowired
+    ICommentService commentService;
+
+    @GetMapping("/comment/{blogId}")
+    public String CommentList(@PathVariable("blogId") Long id, Model model){
+        model.addAttribute("Comment",commentService.ListCommentByBlogId(id));
+        return "blog::commentList";
+    }
+
+    @PostMapping("/comment")
+    public String post(Comment comment, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user != null){
+            comment.setAdminComment(true);
+            comment.setNickname(user.getNickname());
+            comment.setAvatar(user.getAvatar());
+        }
+        commentService.saveComment(comment);
+        return "redirect:/comment/" + comment.getBlogId();
+    }
+
+    @PostMapping("/Comment/delete")
+    public String delete(@RequestParam("CommentId") Long CommentId,@RequestParam("BlogId") Long BlogId){
+        commentService.deleteComment(CommentId,BlogId);
+        return "redirect:/comment/" + BlogId;
+    }
+}

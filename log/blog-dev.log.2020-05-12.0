@@ -1,0 +1,45 @@
+2020-05-12 17:32:59.286  INFO 65280 --- [restartedMain] com.wang.blog.BlogApplication            : Starting BlogApplication on wangsiyuan with PID 65280 (C:\Users\wangsiyuan\Desktop\Java\blog\target\classes started by wangsiyuan in C:\Users\wangsiyuan\Desktop\Java\blog)
+2020-05-12 17:32:59.334 DEBUG 65280 --- [restartedMain] com.wang.blog.BlogApplication            : Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2020-05-12 17:32:59.338  INFO 65280 --- [restartedMain] com.wang.blog.BlogApplication            : The following profiles are active: dev
+2020-05-12 17:32:59.572  INFO 65280 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-05-12 17:32:59.572  INFO 65280 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-05-12 17:33:01.971  INFO 65280 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-05-12 17:33:01.984  INFO 65280 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-05-12 17:33:01.985  INFO 65280 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.33]
+2020-05-12 17:33:02.093  INFO 65280 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-05-12 17:33:02.094  INFO 65280 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2520 ms
+2020-05-12 17:33:03.336  INFO 65280 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-12 17:33:03.454  INFO 65280 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-05-12 17:33:04.194  INFO 65280 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-05-12 17:33:04.259  INFO 65280 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-05-12 17:33:04.264  INFO 65280 --- [restartedMain] com.wang.blog.BlogApplication            : Started BlogApplication in 6.126 seconds (JVM running for 11.021)
+2020-05-12 17:33:11.409  INFO 65280 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-05-12 17:33:11.410  INFO 65280 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-05-12 17:33:11.424  INFO 65280 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms
+2020-05-12 17:33:11.488  INFO 65280 --- [http-nio-8080-exec-2] com.wang.blog.aspect.LogAspect           : Request : {}RequestLog{url='http://localhost:8080/index/1', ip='0:0:0:0:0:0:0:1', classMethod='com.wang.blog.Controller.IndexController.index', args=[{blog=Blog{id=1, title='null', content='null', firstPicture='null', flag='null', views=null, description='null', appreciation=false, shareStatement=false, commentabled=false, published=false, recommend=false, createTime=null, updateTime=null, type_id=null, User_id=null, Tag_id=null, type=null, tagList=[], user=null, commentList=[]}, org.springframework.validation.BindingResult.blog=org.springframework.validation.BeanPropertyBindingResult: 0 errors}, Blog{id=1, title='null', content='null', firstPicture='null', flag='null', views=null, description='null', appreciation=false, shareStatement=false, commentabled=false, published=false, recommend=false, createTime=null, updateTime=null, type_id=null, User_id=null, Tag_id=null, type=null, tagList=[], user=null, commentList=[]}, 1]}
+2020-05-12 17:33:13.989  INFO 65280 --- [http-nio-8080-exec-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2020-05-12 17:33:13.998 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.ITagDao.listTagByCount   : ==>  Preparing: select count(blogs_id) as count,t.id,t.name from t_tag t inner join t_blog_tags tbt on t.id = tbt.tags_id group by tbt.tags_id limit ?,? 
+2020-05-12 17:33:14.162 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.ITagDao.listTagByCount   : ==> Parameters: 0(Integer), 20(Integer)
+2020-05-12 17:33:14.237 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.ITagDao.listTagByCount   : <==      Total: 3
+2020-05-12 17:33:14.251 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.ITypeDao.listTypeByCount   : ==>  Preparing: select t.id,t.name,count(tb.id) as count from t_type t inner join t_blog tb on t.id = tb.type_id group by tb.type_id limit ?,? 
+2020-05-12 17:33:14.253 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.ITypeDao.listTypeByCount   : ==> Parameters: 0(Integer), 6(Integer)
+2020-05-12 17:33:14.259 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.ITypeDao.listTypeByCount   : <==      Total: 2
+2020-05-12 17:33:14.265 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.blog.Dao.admin.IBlogDao.getCountAll  : ==>  Preparing: select count(*) from t_blog 
+2020-05-12 17:33:14.267 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.blog.Dao.admin.IBlogDao.getCountAll  : ==> Parameters: 
+2020-05-12 17:33:14.277 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.blog.Dao.admin.IBlogDao.getCountAll  : <==      Total: 1
+2020-05-12 17:33:14.294 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.IBlogDao.listBlogByTime  : ==>  Preparing: select b.*,t.name as aaa ,t.id as tid from t_blog b inner join t_type t on b.type_id = t.id order by update_time desc limit 0,? 
+2020-05-12 17:33:14.299 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.IBlogDao.listBlogByTime  : ==> Parameters: 6(Integer)
+2020-05-12 17:33:14.317 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.IBlogDao.listBlogByTime  : <==      Total: 4
+2020-05-12 17:33:14.318 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.IBlogDao.listBlogByUpTime  : ==>  Preparing: select * from t_blog where published = true and recommend = true order by update_time desc limit 0,5; 
+2020-05-12 17:33:14.350 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.IBlogDao.listBlogByUpTime  : ==> Parameters: 
+2020-05-12 17:33:14.356 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.IBlogDao.listBlogByUpTime  : <==      Total: 4
+2020-05-12 17:33:14.357 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.IBlogDao.getBlogCount    : ==>  Preparing: select count(*) from t_blog 
+2020-05-12 17:33:14.358 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.IBlogDao.getBlogCount    : ==> Parameters: 
+2020-05-12 17:33:14.361 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.Dao.admin.IBlogDao.getBlogCount    : <==      Total: 1
+2020-05-12 17:33:14.362 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.IBlogDao.listBlogByUpTime  : ==>  Preparing: select * from t_blog where published = true and recommend = true order by update_time desc limit 0,5; 
+2020-05-12 17:33:14.363 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.IBlogDao.listBlogByUpTime  : ==> Parameters: 
+2020-05-12 17:33:14.369 DEBUG 65280 --- [http-nio-8080-exec-2] c.w.b.D.admin.IBlogDao.listBlogByUpTime  : <==      Total: 4
+2020-05-12 17:33:14.370  INFO 65280 --- [http-nio-8080-exec-2] com.wang.blog.aspect.LogAspect           : Result : {}index
+2020-05-12 17:33:23.414 DEBUG 65280 --- [http-nio-8080-exec-5] c.w.blog.Dao.admin.IUserDao.findByUser   : ==>  Preparing: select * from t_user where password = ? and username = ?; 
+2020-05-12 17:33:23.415 DEBUG 65280 --- [http-nio-8080-exec-5] c.w.blog.Dao.admin.IUserDao.findByUser   : ==> Parameters: 202cb962ac59075b964b07152d234b70(String), 123(String)
+2020-05-12 17:33:23.426 DEBUG 65280 --- [http-nio-8080-exec-5] c.w.blog.Dao.admin.IUserDao.findByUser   : <==      Total: 1
