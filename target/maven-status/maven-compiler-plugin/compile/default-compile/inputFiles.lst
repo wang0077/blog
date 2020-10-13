@@ -10,8 +10,6 @@ C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Controller\Ind
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\admin\ITagService.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Config\DruidConfig.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Tree\CommentTree.java
-C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Factory\MarkDownFactory.java
-C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Factory\UtilFactory.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Controller\TypeShowController.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\admin\impl\TypeServiceImpl.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Controller\admin\LoginController.java
@@ -32,10 +30,10 @@ C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Controller\Tag
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Component\IndexInterceptor.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\admin\ITypeService.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Handler\ControllerExceptionHandler.java
+C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\ICountService.java
+C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\Impl\CountServiceImpl.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\admin\IUserService.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Util\MarkdownUtil.java
-C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Util\Markdown.java
-C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Util\Utils.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Bean\Blog_Tag.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Service\admin\IBlogService.java
 C:\Users\wangsiyuan\Desktop\Java\blog\src\main\java\com\wang\blog\Bean\User.java

@@ -10,10 +10,7 @@ import com.wang.blog.Service.admin.impl.SearchBlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class IndexController {
@@ -39,7 +36,6 @@ public class IndexController {
         model.addAttribute("page",blogService.listBlog(page));
         model.addAttribute("newPage",blogService.listBlogByTime());
         model.addAttribute("count",blogService.getBlogCount());
-        System.out.println(blogService.listBlogByTime());
         return "index";
     }
 
@@ -52,10 +48,6 @@ public class IndexController {
         System.out.println(blogService.getMarkDownBlog(id));
         return BLOG;
     }
-
-
-
-
 
     @PostMapping("/search/{id}")
     public String Search(Model model,

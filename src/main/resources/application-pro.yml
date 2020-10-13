@@ -39,4 +39,4 @@ logging:
     max-size: 10MB
 
 server:
-  port: 8081
+  port: 8080

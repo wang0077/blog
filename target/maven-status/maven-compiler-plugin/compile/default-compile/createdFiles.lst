@@ -8,10 +8,8 @@ com\wang\blog\Config\LoginConfig.class
 com\wang\blog\Controller\admin\BlogController.class
 com\wang\blog\Service\admin\impl\UserServiceImpl.class
 com\wang\blog\Tree\CommentTree.class
-com\wang\blog\Util\Markdown$CustomAttributeProvider.class
 com\wang\blog\Bean\Type.class
 com\wang\blog\Util\MarkdownUtil.class
-com\wang\blog\Util\Markdown.class
 com\wang\blog\Controller\admin\TagController.class
 com\wang\blog\Service\Impl\CommentServiceImpl.class
 com\wang\blog\Service\admin\impl\TypeServiceImpl.class
@@ -24,7 +22,6 @@ com\wang\blog\BlogApplication.class
 com\wang\blog\Service\admin\ITypeService.class
 com\wang\blog\aspect\LogAspect$RequestLog.class
 com\wang\blog\Service\admin\impl\TagServiceImpl.class
-com\wang\blog\Util\Markdown$1.class
 com\wang\blog\Bean\Page.class
 com\wang\blog\Service\admin\impl\SearchBlogServiceImpl.class
 com\wang\blog\Service\ICommentService.class
@@ -35,13 +32,11 @@ com\wang\blog\Bean\Tag.class
 com\wang\blog\Handler\ControllerExceptionHandler.class
 com\wang\blog\Config\MybatisConfig.class
 com\wang\blog\Service\admin\IBlogService.class
-com\wang\blog\Factory\UtilFactory.class
-com\wang\blog\Factory\MarkDownFactory.class
 com\wang\blog\Controller\admin\TypeController.class
 com\wang\blog\Bean\Blog.class
+com\wang\blog\Service\ICountService.class
 com\wang\blog\Service\admin\IUserService.class
 com\wang\blog\Bean\Blog_Tag.class
-com\wang\blog\Util\Utils.class
 com\wang\blog\Config\MybatisConfig$1.class
 com\wang\blog\Bean\Comment.class
 com\wang\blog\Exception\NotFindException.class
@@ -52,3 +47,4 @@ com\wang\blog\Util\MarkdownUtil$1.class
 com\wang\blog\Controller\ArchiveShowController.class
 com\wang\blog\Dao\admin\IUserDao.class
 com\wang\blog\Component\LoginInterceptor.class
+com\wang\blog\Service\Impl\CountServiceImpl.class

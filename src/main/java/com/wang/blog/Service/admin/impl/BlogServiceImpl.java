@@ -67,9 +67,9 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public Page<Blog> searchBlog(Page<Blog> page, String query) {
-//        if(query != null){
-////            query = "%" + query + "%";
-////        }
+        if(query != null){
+            query = "%" + query + "%";
+        }
         page.setPage_count(blogDao.searchCount(query));
         List<Blog> blogs = null;
         if(page.getPage_count() != 0){
@@ -82,9 +82,9 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public Page<Blog> listBlog(Page<Blog> page, Blog blog) {
-//        if(blog.getTitle() != null){
-//            blog.setTitle("%" + blog.getTitle() + "%");
-//        }
+        if(blog.getTitle() != null){
+            blog.setTitle("%" + blog.getTitle() + "%");
+        }
         int count = blogDao.getCountBlogAllByType(blog);
         page.setPage_count(count);
         System.out.println(count);
