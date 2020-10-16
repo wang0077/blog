@@ -1,8 +1,8 @@
-package com.wang.blog.Service.admin;
+package com.wang.blog.service.admin;
 
-import com.wang.blog.Bean.Blog;
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Tag;
+import com.wang.blog.bean.Blog;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Tag;
 
 import java.util.Date;
 import java.util.List;
@@ -28,7 +28,7 @@ public interface IBlogService {
 
     public List<Blog> listBlogByTime();
 
-    public List<Blog> listBlogByFoot();
+//    public List<Blog> listBlogByFoot();
 
     public int getBlogCount();
 

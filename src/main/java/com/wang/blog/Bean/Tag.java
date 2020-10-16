@@ -1,15 +1,28 @@
-package com.wang.blog.Bean;
+package com.wang.blog.bean;
 
 import java.io.Serializable;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 public class Tag implements Serializable {
+    /**
+     * 标签Id
+     */
     private Long tag_id;
+    /**
+     * 标签名字
+     */
     private String tag_name;
+    /**
+     * 标签数量
+     */
     private int count;
-
+    /**
+     * 标签对应的博客,一对多
+     */
     private List<Blog> blogList = new ArrayList<>();
 
     public Tag() {

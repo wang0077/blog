@@ -5,6 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * @author wangsiyuan
+ */
 @MapperScan(value = "com.wang.blog.dao")
 @SpringBootApplication
 //@ComponentScan(value = "com.wang.blog")

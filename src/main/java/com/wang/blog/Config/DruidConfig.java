@@ -1,4 +1,4 @@
-package com.wang.blog.Config;
+package com.wang.blog.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author wangsiyuan
+ */
 @Configuration
 public class DruidConfig {
 

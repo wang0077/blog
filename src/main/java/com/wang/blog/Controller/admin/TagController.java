@@ -1,10 +1,8 @@
-package com.wang.blog.Controller.admin;
+package com.wang.blog.controller.admin;
 
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Tag;
-import com.wang.blog.Bean.Type;
-import com.wang.blog.Service.admin.ITagService;
-import com.wang.blog.Service.admin.ITypeService;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Tag;
+import com.wang.blog.service.admin.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +26,10 @@ public class TagController {
         Page<Tag> listType = service.listTag(page);
         System.out.println(page.getPage_tot());
         if(session.getAttribute("operation") != null){
-            if(session.getAttribute("operation").equals("update")){
+            if("update".equals(session.getAttribute("operation"))){
                 model.addAttribute("message","恭喜，修改成功!");
                 session.removeAttribute("operation");
-            }else if(session.getAttribute("operation").equals("delete")){
+            }else if("delete".equals(session.getAttribute("operation"))){
                 model.addAttribute("message","恭喜，删除成功!");
                 session.removeAttribute("operation");
             }else {

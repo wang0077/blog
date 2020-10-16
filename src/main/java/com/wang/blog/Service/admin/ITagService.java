@@ -1,8 +1,7 @@
-package com.wang.blog.Service.admin;
+package com.wang.blog.service.admin;
 
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Tag;
-import com.wang.blog.Bean.Type;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Tag;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface ITagService {
 
     public Page<Tag> listTag(Page<Tag> page);
 
-    public List<Tag> listTagByCount();
+    public List<Tag> countListByTag();
 
     public int getTagCount();
 

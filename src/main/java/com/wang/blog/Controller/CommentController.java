@@ -1,8 +1,8 @@
-package com.wang.blog.Controller;
+package com.wang.blog.controller;
 
-import com.wang.blog.Bean.Comment;
-import com.wang.blog.Bean.User;
-import com.wang.blog.Service.ICommentService;
+import com.wang.blog.bean.Comment;
+import com.wang.blog.bean.User;
+import com.wang.blog.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ public class CommentController {
 
     @GetMapping("/comment/{blogId}")
     public String CommentList(@PathVariable("blogId") Long id, Model model){
-        model.addAttribute("Comment",commentService.ListCommentByBlogId(id));
+        model.addAttribute("Comment",commentService.listCommentByBlogId(id));
         return "blog::commentList";
     }
 

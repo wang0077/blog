@@ -13,13 +13,16 @@ import javax.crypto.interfaces.PBEKey;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
+/**
+ * @author wangsiyuan
+ */
 @Aspect
 @Component
 public class LogAspect {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Pointcut("execution(* com.wang.blog.Controller.*.*(..))")
+    @Pointcut("execution(* com.wang.blog.controller.*.*(..))")
     public  void log(){
     }
 

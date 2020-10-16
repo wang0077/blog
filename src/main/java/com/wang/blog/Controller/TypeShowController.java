@@ -1,11 +1,10 @@
-package com.wang.blog.Controller;
+package com.wang.blog.controller;
 
-import com.wang.blog.Bean.Blog;
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Type;
-import com.wang.blog.Service.admin.IBlogService;
-import com.wang.blog.Service.admin.ITypeService;
-import com.wang.blog.Service.admin.impl.SearchBlogServiceImpl;
+import com.wang.blog.bean.Blog;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Type;
+import com.wang.blog.service.admin.IBlogService;
+import com.wang.blog.service.admin.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,18 +28,20 @@ public class TypeShowController {
         Page<Blog> page = new Page<>();
         page.setCur_Page(id);
         page.setPage_size(6);
-        List<Type> types = typeService.lisTpeByCount();
+        List<Type> types = typeService.lisTypeByCount();
         if(typedId == -1){
             typedId = types.get(0).getId();
         }
         Blog blog = new Blog();
         System.out.println(typedId);
         blog.setType_id(typedId);
-        model.addAttribute("count",typeService.getTypeCount());
-        model.addAttribute("type",typeService.lisTpeByCount());
-        SearchBlogServiceImpl searchBlogService = new SearchBlogServiceImpl(blogService);
-        model.addAttribute("blog",searchBlogService.listBlog(page,blog));
-        System.out.println(typeService.lisTpeByCount());
+        model.addAttribute("count",typeService.countType());
+        model.addAttribute("type",typeService.lisTypeByCount());
+//        SearchBlogServiceImpl searchBlogService = new SearchBlogServiceImpl(blogService);
+        model.addAttribute("blog",blogService.listBlog(page,blog));
+//        System.out.println(blogService.listBlog(page,blog).getList().get(0));
+
+        System.out.println(typeService.lisTypeByCount() + "????");
         return TYPE;
     }
 }

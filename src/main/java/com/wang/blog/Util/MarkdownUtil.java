@@ -1,4 +1,4 @@
-package com.wang.blog.Util;
+package com.wang.blog.util;
 
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TableBlock;
@@ -14,11 +14,13 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.util.*;
 
+/**
+ * @author wangsiyuan
+ */
 public class MarkdownUtil {
     /**
      * markdown格式转换成HTML格式
-     * @param markdown
-     * @return
+     * @param markdown 文章内容(md格式)
      */
     public static String markdownToHtml(String markdown) {
         Parser parser = Parser.builder().build();
@@ -30,8 +32,6 @@ public class MarkdownUtil {
     /**
      * 增加扩展[标题锚点，表格生成]
      * Markdown转换成HTML
-     * @param markdown
-     * @return
      */
     public static String markdownToHtmlExtensions(String markdown) {
         //h标题生成id
@@ -46,6 +46,7 @@ public class MarkdownUtil {
                 .extensions(headingAnchorExtensions)
                 .extensions(tableExtension)
                 .attributeProviderFactory(new AttributeProviderFactory() {
+                    @Override
                     public AttributeProvider create(AttributeProviderContext context) {
                         return new CustomAttributeProvider();
                     }

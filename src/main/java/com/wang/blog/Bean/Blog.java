@@ -1,4 +1,4 @@
-package com.wang.blog.Bean;
+package com.wang.blog.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,49 +9,93 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * @author wangsiyuan
+ */
 public class Blog implements Serializable {
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
-    //文章标题
+    /**
+     * 文章标题
+     */
     private  String title;
-    //文章内容
+    /**
+     * 文章内容
+     */
     private String content;
-    //文章首图地址
+    /**
+     * 文章首图地址
+     */
     private String firstPicture;
-    //标记转载原创的信息
+    /**
+     * 标记转载原创的信息
+     */
     private String flag;
-    //浏览次数
+    /**
+     * 浏览次数
+     */
     private Integer views;
-    //文章描述，放在首页小框框里面
+    /**
+     * 文章描述，放在首页小框框里面
+     */
     private String description;
-    //赞赏是否开启
+    /**
+     * 赞赏是否开启
+     */
     private boolean appreciation;
-    //转载声明是否开启
+    /**
+     * 转载声明是否开启
+     */
     private boolean shareStatement;
-    //评论是否开启
+    /**
+     * 评论是否开启
+     */
     private boolean commentabled;
-    //是否公开，状态发布或者保存
+    /**
+     * 是否公开，状态发布或者保存
+     */
     private boolean published;
-    //是否推荐
+    /**
+     * 是否推荐
+     */
     private boolean recommend;
-    //创建时间
+    /**
+     * 创建时间
+     */
     private Date createTime;
-    //更新时间
+    /**
+     * 更新时间
+     */
     private Date updateTime;
-    //分配type的外键
+    /**
+     * 分配type的外键
+     */
     private Long type_id;
-    //用户User的外键
+    /**
+     * 用户User的外键
+     */
     private Long User_id;
-    //标签Tag的外键
+    /**
+     * 标签Tag的外键
+     */
     private String Tag_id;
-
-    //分类实体一对一
+    /**
+     * 分类实体一对一
+     */
     private Type type;
-    //标签实体一对多
+    /**
+     * 标签实体一对多
+     */
     private List<Tag> tagList = new ArrayList<>();
-    //用户实体一对一
+    /**
+     * 用户实体一对一
+     */
     private User user;
-    //留言实体一对多
+    /**
+     * 留言实体一对多
+     */
     private List<Comment> commentList = new ArrayList<>();
 
     public Blog() {

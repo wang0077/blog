@@ -1,8 +1,8 @@
-package com.wang.blog.Service.admin.impl;
+package com.wang.blog.service.admin.impl;
 
-import com.wang.blog.Bean.User;
-import com.wang.blog.Dao.admin.IUserDao;
-import com.wang.blog.Service.admin.IUserService;
+import com.wang.blog.bean.User;
+import com.wang.blog.dao.admin.IUserDao;
+import com.wang.blog.service.admin.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
-
-    public void test(){
-        System.out.println(userDao);
-
-    }
 
     @Override
     public User checkUser(String username, String password) {

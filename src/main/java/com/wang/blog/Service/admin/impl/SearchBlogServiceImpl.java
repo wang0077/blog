@@ -1,10 +1,15 @@
-package com.wang.blog.Service.admin.impl;
+package com.wang.blog.service.admin.impl;
 
-import com.wang.blog.Bean.Blog;
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Service.admin.IBlogService;
+import com.wang.blog.bean.Blog;
+import com.wang.blog.bean.Page;
+import com.wang.blog.service.admin.IBlogService;
+import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @author wangsiyuan
+ */
 public class SearchBlogServiceImpl extends BlogServiceImpl {
+
     private IBlogService blogService;
 
     public SearchBlogServiceImpl(IBlogService blogService) {
@@ -28,7 +33,8 @@ public class SearchBlogServiceImpl extends BlogServiceImpl {
     }
 
     private void Search(Blog blog){
-        if(blog.getTitle() != null)
+        if(blog.getTitle() != null){
             blog.setTitle("%" + blog.getTitle() + "%");
+        }
     }
 }

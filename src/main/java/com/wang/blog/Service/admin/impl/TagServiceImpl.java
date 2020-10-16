@@ -1,10 +1,10 @@
-package com.wang.blog.Service.admin.impl;
+package com.wang.blog.service.admin.impl;
 
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Tag;
-import com.wang.blog.Dao.admin.ITagDao;
-import com.wang.blog.Exception.NotFindException;
-import com.wang.blog.Service.admin.ITagService;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Tag;
+import com.wang.blog.dao.admin.ITagDao;
+import com.wang.blog.exception.NotFindException;
+import com.wang.blog.service.admin.ITagService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class TagServiceImpl implements ITagService {
 
     @Override
     public Page<Tag> listTag(@NotNull Page<Tag> page) {
-        page.setPage_count(tagDao.getTagCount());
+        page.setPage_count(tagDao.countTag());
         page.setPage_tot(page.getPage_count() / page.getPage_size() + page.getPage_count() / page.getPage_size() == 0 ? 0 :1);
         if(page.getPage_tot() == 0){
             page.setPage_tot(1);
@@ -46,13 +46,14 @@ public class TagServiceImpl implements ITagService {
         return page;
     }
 
+    @Override
     public int getTagCount(){
-        return tagDao.getTagCount();
+        return tagDao.countTag();
     }
 
     @Override
-    public List<Tag> listTagByCount() {
-        return tagDao.listTagByCount(0,20);
+    public List<Tag> countListByTag() {
+        return tagDao.countTagByBlog(0,20);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class TagServiceImpl implements ITagService {
 
     @Override
     public List<Tag> listTag(){
-        return tagDao.getTagAll();
+        return tagDao.listTagAll();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class TagServiceImpl implements ITagService {
         for (String s : split) {
             id.add(Integer.parseInt(s));
         }
-        return tagDao.searchTag(id);
+        return tagDao.getTagByBlog(id);
     }
 
     @Override

@@ -1,22 +1,53 @@
-package com.wang.blog.Bean;
+package com.wang.blog.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 public class User implements Serializable {
-
+    /**
+     * 用户的Id,主键
+     */
     private Long id;
+    /**
+     * 昵称,回显页面用的
+     */
     private String nickname;
+    /**
+     * 用户名,登录用的
+     */
     private String username;
+    /**
+     * 密码
+     */
     private String password;
+    /**
+     * 邮箱
+     */
     private String email;
+    /**
+     * 头像
+     */
     private String avatar;
+    /**
+     * 用户的分类
+     */
     private Integer type;
+    /**
+     * 用户创建时间
+     */
     private Date createTime;
+    /**
+     * 更新时间(好像没啥用)
+     */
     private Date updateTime;
-
+    /**
+     * 用户底下对应的博客,一对多,(貌似个人博客用不着)
+     */
     private List<Blog> blogList = new ArrayList<>();
 
     public User() {

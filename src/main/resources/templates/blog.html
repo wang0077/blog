@@ -332,7 +332,7 @@
 
         function postData() {
             $("#comment-container").load("\/comment",{
-                "patentId" : $("[name='parentComment.id']").val(),
+                "parentId" : $("[name='parentComment.id']").val(),
                 "blogId" : $("[name='blog.id']").val(),
                 "nickname": $("[name='nickname']").val(),
                 "email"   : $("[name='email']").val(),

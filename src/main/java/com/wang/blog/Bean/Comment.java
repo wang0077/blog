@@ -1,25 +1,61 @@
-package com.wang.blog.Bean;
+package com.wang.blog.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 public class Comment implements Serializable {
+    /**
+     * 评论的Id,主键
+     */
     private Long id;
+    /**
+     * 昵称
+     */
     private String nickname;
+    /**
+     * 邮箱
+     */
     private String email;
+    /**
+     * 评论内容
+     */
     private String content;
+    /**
+     * 评论的头像
+     */
     private String avatar;
+    /**
+     * 创建时间
+     */
     private Date createTime;
-    private Long patentId;
+    /**
+     * 父节点的Id
+     */
+    private Long parentId;
+    /**
+     * 归属博客的Id
+     */
     private Long blogId;
+    /**
+     * 是否是管理员的评论
+     */
     private boolean adminComment;
-
+    /**
+     * 博客的实体
+     */
     private Blog blog;
-
+    /**
+     * 子节点的评论
+     */
     private List<Comment> replyComment = new ArrayList<>();
-
+    /**
+     * 父节点的评论实体
+     */
     private Comment parentComment;
 
     public Comment() {
@@ -42,12 +78,12 @@ public class Comment implements Serializable {
         this.replyComment = replyComment;
     }
 
-    public Long getPatentId() {
-        return patentId;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setPatentId(Long patentId) {
-        this.patentId = patentId;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public Blog getBlog() {
@@ -131,7 +167,7 @@ public class Comment implements Serializable {
                 ", content='" + content + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", createTime=" + createTime +
-                ", patentId=" + patentId +
+                ", parentId=" + parentId +
                 ", blogId=" + blogId +
                 ", blog=" + blog +
                 ", replyComment=" + replyComment +

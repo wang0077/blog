@@ -1,25 +1,19 @@
-package com.wang.blog.Controller.admin;
+package com.wang.blog.controller.admin;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.wang.blog.Bean.Blog;
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Tag;
-import com.wang.blog.Bean.User;
-import com.wang.blog.Service.admin.IBlogService;
-import com.wang.blog.Service.admin.ITagService;
-import com.wang.blog.Service.admin.ITypeService;
-import org.apache.ibatis.annotations.Param;
+import com.wang.blog.bean.Blog;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Tag;
+import com.wang.blog.bean.User;
+import com.wang.blog.service.admin.IBlogService;
+import com.wang.blog.service.admin.ITagService;
+import com.wang.blog.service.admin.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.Soundbank;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Controller
@@ -73,7 +67,7 @@ public class BlogController {
     @PostMapping("/search")
     public String search(Model model, Blog blog, @RequestParam("page") Integer cur_page){
         System.out.println(cur_page);
-        if(blog.getTitle().equals("")){
+        if("".equals(blog.getTitle())){
             blog.setTitle(null);
         }
         Page<Blog> page = new Page<>();
@@ -120,8 +114,8 @@ public class BlogController {
     }
 
     @PostMapping("/blogs")
-    public String post(Blog blog, @RequestParam("Tag") String Tag_id, HttpSession session){
-        List<Tag> tagSearch = tagService.getTagSearch(Tag_id);
+    public String post(Blog blog, @RequestParam("Tag") String tagId, HttpSession session){
+        List<Tag> tagSearch = tagService.getTagSearch(tagId);
         blog.setTagList(tagSearch);
         blog.setType(typeService.getType(blog.getType().getId()));
         User user = (User) session.getAttribute("user");

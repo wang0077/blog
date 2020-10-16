@@ -1,10 +1,10 @@
-package com.wang.blog.Service.admin.impl;
+package com.wang.blog.service.admin.impl;
 
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Bean.Type;
-import com.wang.blog.Dao.admin.ITypeDao;
-import com.wang.blog.Exception.NotFindException;
-import com.wang.blog.Service.admin.ITypeService;
+import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Type;
+import com.wang.blog.dao.admin.ITypeDao;
+import com.wang.blog.exception.NotFindException;
+import com.wang.blog.service.admin.ITypeService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,14 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 @Service
 public class TypeServiceImpl implements ITypeService {
 
-    @Autowired(required = true)
+
     private ITypeDao typeDao;
+    @Autowired
+    public void setTypeDao(ITypeDao typeDao) {
+        this.typeDao = typeDao;
+    }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void saveType(String name) {
         typeDao.saveType(name);
     }
@@ -30,13 +37,13 @@ public class TypeServiceImpl implements ITypeService {
     }
 
     @Override
-    public List<Type> lisTpeByCount() {
-        return typeDao.listTypeByCount(0,6);
+    public List<Type> lisTypeByCount() {
+        return typeDao.listTypeByCountBlog(0,6);
     }
 
     @Override
     public Page<Type> listType(@NotNull Page<Type> page) {
-        page.setPage_count(typeDao.getTypeCount());
+        page.setPage_count(typeDao.countType());
         page.setPage_tot(page.getPage_count() / page.getPage_size() + page.getPage_count() / page.getPage_size() == 0 ? 0 :1);
         if(page.getPage_tot() == 0){
             page.setPage_tot(1);
@@ -47,12 +54,12 @@ public class TypeServiceImpl implements ITypeService {
     }
 
     @Override
-    public int getTypeCount() {
-        return typeDao.getTypeCount();
+    public int countType() {
+        return typeDao.countType();
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateType(Long id,String name) {
         Type type = typeDao.getTypeById(id);
         if(type == null){
@@ -73,6 +80,6 @@ public class TypeServiceImpl implements ITypeService {
 
     @Override
     public List<Type> listType() {
-        return typeDao.getTypeAll();
+        return typeDao.listTypeAll();
     }
 }

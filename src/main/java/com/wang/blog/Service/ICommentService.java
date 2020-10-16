@@ -1,12 +1,12 @@
-package com.wang.blog.Service;
+package com.wang.blog.service;
 
-import com.wang.blog.Bean.Comment;
+import com.wang.blog.bean.Comment;
 
 import java.util.List;
 
 public interface ICommentService {
 
-    public List<Comment> ListCommentByBlogId(Long id);
+    public List<Comment> listCommentByBlogId(Long id);
 
     public void saveComment(Comment comment);
 

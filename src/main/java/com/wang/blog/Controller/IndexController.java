@@ -1,12 +1,11 @@
-package com.wang.blog.Controller;
+package com.wang.blog.controller;
 
-import com.wang.blog.Bean.Blog;
-import com.wang.blog.Bean.Page;
-import com.wang.blog.Exception.NotFindException;
-import com.wang.blog.Service.admin.IBlogService;
-import com.wang.blog.Service.admin.ITagService;
-import com.wang.blog.Service.admin.ITypeService;
-import com.wang.blog.Service.admin.impl.SearchBlogServiceImpl;
+import com.wang.blog.bean.Blog;
+import com.wang.blog.bean.Page;
+import com.wang.blog.service.admin.IBlogService;
+import com.wang.blog.service.admin.ITagService;
+import com.wang.blog.service.admin.ITypeService;
+import com.wang.blog.service.admin.impl.SearchBlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +30,8 @@ public class IndexController {
         Page<Blog> page = new Page<>();
         page.setCur_Page(id);
         page.setPage_size(6);
-        model.addAttribute("tag",tagService.listTagByCount());
-        model.addAttribute("type",typeService.lisTpeByCount());
+        model.addAttribute("tag",tagService.countListByTag());
+        model.addAttribute("type",typeService.lisTypeByCount());
         model.addAttribute("page",blogService.listBlog(page));
         model.addAttribute("newPage",blogService.listBlogByTime());
         model.addAttribute("count",blogService.getBlogCount());
@@ -65,9 +64,9 @@ public class IndexController {
         return SEARCH;
     }
 
-    @GetMapping("/footer/newBlog")
-    public String newBlogs(Model model){
-        model.addAttribute("newblogs",blogService.listBlogByFoot());
-        return "fragments::newblogList";
-    }
+//    @GetMapping("/footer/newBlog")
+//    public String newBlogs(Model model){
+//        model.addAttribute("newblogs",blogService.listBlogByFoot());
+//        return "fragments::newblogList";
+//    }
 }

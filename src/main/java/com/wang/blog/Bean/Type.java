@@ -1,14 +1,28 @@
-package com.wang.blog.Bean;
+package com.wang.blog.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 public class Type implements Serializable {
+    /**
+     * 分类Id
+     */
     private Long id;
+    /**
+     * 分类的名字
+     */
     private String name;
+    /**
+     * 分类的数量
+     */
     private int count;
-
+    /**
+     * 分类对应的博客,一对多
+     */
     private List<Blog> blogList = new ArrayList<>();
 
     public Type() {

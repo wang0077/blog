@@ -1,8 +1,8 @@
-package com.wang.blog.Controller.admin;
+package com.wang.blog.controller.admin;
 
-import com.wang.blog.Bean.User;
+import com.wang.blog.bean.User;
 
-import com.wang.blog.Service.admin.IUserService;
+import com.wang.blog.service.admin.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;

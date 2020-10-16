@@ -21,6 +21,8 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  redis:
+    host: 139.9.131.101
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
@@ -34,6 +36,7 @@ logging:
     com.wang: debug
   file:
     name: log/blog-dev.log
+
 
 server:
   port: 8080

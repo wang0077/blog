@@ -1,7 +1,17 @@
-package com.wang.blog.Bean;
+package com.wang.blog.bean;
 
+/**
+ * 博客和标签的中间表
+ * @author wangsiyuan
+ */
 public class Blog_Tag {
+    /**
+     *  博客Id
+     */
     private Long blogs;
+    /**
+     * 标签Id
+     */
     private Long tags;
 
     public Long getBlogs() {

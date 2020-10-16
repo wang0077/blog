@@ -1,9 +1,12 @@
-package com.wang.blog.Config;
+package com.wang.blog.config;
 
 import org.apache.ibatis.session.Configuration;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * @author wangsiyuan
+ */
 @org.springframework.context.annotation.Configuration
 public class MybatisConfig {
     @Bean
