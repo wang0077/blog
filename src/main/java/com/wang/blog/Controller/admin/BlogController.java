@@ -55,12 +55,12 @@ public class BlogController {
         page.setCur_Page(id);
         page.setPage_size(5);
         blog.setRecommend(true);
-        page.setList(service.getBlogAll(page));
+        page.setList(service.getBlogOnPage(page));
         System.out.println(page.getList());
         model.addAttribute("tags",tagService.listTag());
         model.addAttribute("types",typeService.listType());
         model.addAttribute("page",page);
-//        System.out.println(service.listBlog(page,blog).getList());
+//        System.out.println(service.SearchBlog(page,blog).getList());
         return LIST;
     }
 

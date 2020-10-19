@@ -5,7 +5,6 @@ import com.wang.blog.bean.Page;
 import com.wang.blog.service.admin.IBlogService;
 import com.wang.blog.service.admin.ITagService;
 import com.wang.blog.service.admin.ITypeService;
-import com.wang.blog.service.admin.impl.SearchBlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +39,7 @@ public class IndexController {
 
     @GetMapping("/blog/{id}")
     public String blog(Model model,@PathVariable("id") Long id){
-        blogService.UpdateView(id);
+        blogService.updateView(id);
         model.addAttribute("blog",blogService.getMarkDownBlog(id));
         model.addAttribute("tag",tagService.getTagByBlogId(id));
         System.out.println(tagService.getTagByBlogId(id));
@@ -57,9 +56,8 @@ public class IndexController {
         page.setCur_Page(id);
         blog.setTitle(query);
         page.setPage_size(6);
-        SearchBlogServiceImpl searchBlogService = new SearchBlogServiceImpl(blogService);
-        model.addAttribute("page",searchBlogService.searchBlog(page,query));
-        System.out.println(blogService.searchBlog(page,query));
+        model.addAttribute("page",blogService.searchBlogByString(page,query));
+        System.out.println(blogService.searchBlogByString(page,query));
         model.addAttribute("query",query);
         return SEARCH;
     }

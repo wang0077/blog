@@ -105,7 +105,7 @@
 
 
 
-<!--    <select id="listBlog" resultMap="listBlog">-->
+<!--    <select id="SearchBlog" resultMap="SearchBlog">-->
 <!--        select  b.*,t.name as aaa ,t.id as tid from t_blog b-->
 <!--            <if test="blog.type_id != null">-->
 <!--                inner join t_type t on t.id = b.type_id and b.type_id = #{blog.type_id}-->

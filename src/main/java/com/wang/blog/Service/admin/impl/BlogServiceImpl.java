@@ -22,15 +22,30 @@ import java.util.*;
 @Service
 public class BlogServiceImpl implements IBlogService {
 
-    @Autowired
     private IBlogDao blogDao;
 
-    @Autowired
     private ITagDao tagDao;
 
-    @Autowired
     private ICommentDao commentDao;
 
+    @Autowired
+    public void setBlogDao(IBlogDao blogDao) {
+        this.blogDao = blogDao;
+    }
+    @Autowired
+    public void setTagDao(ITagDao tagDao) {
+        this.tagDao = tagDao;
+    }
+    @Autowired
+    public void setCommentDao(ICommentDao commentDao) {
+        this.commentDao = commentDao;
+    }
+
+    /**
+     * 获取所有的标签Id
+     * @param tags 该博客的所有标签
+     * @return 返回String类型的标签id,"1","2","3"
+     */
     @Override
     public String getTagIds(List<Tag> tags) {
         StringBuilder stringBuffer = new StringBuilder();
@@ -62,12 +77,12 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     @Transactional
-    public void UpdateView(Long id) {
+    public void updateView(Long id) {
         blogDao.updateView(id);
     }
 
     @Override
-    public Page<Blog> searchBlog(Page<Blog> page, String query) {
+    public Page<Blog> searchBlogByString(Page<Blog> page, String query) {
         if(query != null){
             query = "%" + query + "%";
         }
@@ -88,26 +103,22 @@ public class BlogServiceImpl implements IBlogService {
         }
         int count = blogDao.countTypeIncludeBlog(blog);
         page.setPage_count(count);
-        System.out.println("count : " + count );
-        System.out.println(count);
         if(count != 0){
             getPageTot(page);
             int start = getStart(page);
             page.setList(blogDao.listBlog(start,page.getPage_size(),blog));
         }
-        System.out.println(count);
         return page;
     }
 
     @Override
-    public Page<Blog> listBlogByTag(Page<Blog> page, Long TagId) {
-        int count = blogDao.countBlogByTag(TagId);
+    public Page<Blog> listBlogByTag(Page<Blog> page, Long tagId) {
+        int count = blogDao.countBlogByTag(tagId);
         page.setPage_count(count);
-        System.out.println(count);
         if(count != 0){
             getPageTot(page);
             int start = getStart(page);
-            page.setList(blogDao.listTypeIncludeBlog(start,page.getPage_size(),TagId));
+            page.setList(blogDao.listTypeIncludeBlog(start,page.getPage_size(), tagId));
         }
         return page;
     }
@@ -115,8 +126,8 @@ public class BlogServiceImpl implements IBlogService {
     @Override
     public Page<Blog> listBlog(Page<Blog> page) {
         page.setPage_count(blogDao.countBlog());
-        Page<Blog> Cur_blog = getPageTot(page);
-        int start  = getStart(Cur_blog);
+        Page<Blog> curBlog = getPageTot(page);
+        int start  = getStart(curBlog);
         page.setList(blogDao.listBlogByTime(start,page.getPage_size()));
         return page;
     }
@@ -149,7 +160,7 @@ public class BlogServiceImpl implements IBlogService {
     }
 
     @Override
-    public List<Blog> getBlogAll(Page<Blog> page) {
+    public List<Blog> getBlogOnPage(Page<Blog> page) {
         int count = blogDao.countBlog();
         page.setPage_count(count);
         int curItem = (page.getCur_Page() - 1) * page.getPage_size();
@@ -178,14 +189,22 @@ public class BlogServiceImpl implements IBlogService {
         return blog;
     }
 
-    @Override
-    public Date format_toString(Date time) {
+    /**
+     * 将Date类型的时间转化为String
+     * @param time Date类型的时间
+     *
+     */
+    private Date formatToString(Date time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return format_toDate(dateFormat.format(time));
+        return formatToDate(dateFormat.format(time));
     }
 
-    @Override
-    public Date format_toDate(String time){
+    /**
+     * 将String类型的时间转化为Date
+     * @param time String类型的时间
+     *
+     */
+    private Date formatToDate(String time){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date parse = dateFormat.parse(time);
@@ -196,7 +215,7 @@ public class BlogServiceImpl implements IBlogService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateBlog(Long id, Blog blog) {
         blog.setUpdateTime(new Date());
         blog.setViews(blogDao.getView(blog.getId()));
@@ -212,7 +231,7 @@ public class BlogServiceImpl implements IBlogService {
     @Transactional
     public void deleteBlog(Long id) {
         //blog作为外键，先删除评论
-        DeleteComment(id);
+        deleteComment(id);
         tagDao.deleteTagBlog(id);
         blogDao.deleteBlog(id);
     }
@@ -220,7 +239,7 @@ public class BlogServiceImpl implements IBlogService {
 
     //删除评论功能主体部分
     @Override
-    public void DeleteComment(Long id){
+    public void deleteComment(Long id){
         //将要删除博客的评论查询出来
         List<Comment> commentList = commentDao.listCommentByBlogId(id);
         //构造一颗评论多叉树的根节点，根节点为空
