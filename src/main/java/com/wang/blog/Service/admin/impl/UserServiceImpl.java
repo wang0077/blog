@@ -6,14 +6,21 @@ import com.wang.blog.service.admin.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author wangsiyuan
+ */
 @Service
 public class UserServiceImpl implements IUserService {
-    @Autowired
+
     private IUserDao userDao;
+
+    @Autowired
+    public void setUserDao(IUserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public User checkUser(String username, String password) {
-        System.out.println(userDao + "dao");
         return userDao.findByUser(username,password);
     }
 }

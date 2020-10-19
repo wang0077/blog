@@ -98,7 +98,7 @@ public interface IBlogDao {
      */
     List<Blog> listBlogWithType(@Param("start") int start, @Param("end") int end);
 
-//    List<Blog> listBlog(@Param("start") int start, @Param("end") int end, @Param("blog") Blog blog);
+//    List<Blog> SearchBlog(@Param("start") int start, @Param("end") int end, @Param("blog") Blog blog);
 
     /**
      *  按照倒序在规定区间范围查询博客信息(包括分类)

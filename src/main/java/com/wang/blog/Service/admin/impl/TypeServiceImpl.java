@@ -44,10 +44,13 @@ public class TypeServiceImpl implements ITypeService {
     @Override
     public Page<Type> listType(@NotNull Page<Type> page) {
         page.setPage_count(typeDao.countType());
+//        计算当前一页存放N条情况下,总共有多少页
         page.setPage_tot(page.getPage_count() / page.getPage_size() + page.getPage_count() / page.getPage_size() == 0 ? 0 :1);
+//        如果分页不足一页
         if(page.getPage_tot() == 0){
             page.setPage_tot(1);
         }
+//        计算当前分页情况下需要从数据库从获取第几条到第几条的数据
         int start = page.getPage_size() * (page.getCur_Page() - 1);
         page.setList(typeDao.listType(start,page.getPage_size()));
         return page;
@@ -61,6 +64,7 @@ public class TypeServiceImpl implements ITypeService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateType(Long id,String name) {
+//        通过Id获取标签
         Type type = typeDao.getTypeById(id);
         if(type == null){
             throw new NotFindException();

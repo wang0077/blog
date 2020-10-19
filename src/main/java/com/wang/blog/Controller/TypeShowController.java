@@ -39,7 +39,7 @@ public class TypeShowController {
         model.addAttribute("type",typeService.lisTypeByCount());
 //        SearchBlogServiceImpl searchBlogService = new SearchBlogServiceImpl(blogService);
         model.addAttribute("blog",blogService.listBlog(page,blog));
-//        System.out.println(blogService.listBlog(page,blog).getList().get(0));
+//        System.out.println(blogService.SearchBlog(page,blog).getList().get(0));
 
         System.out.println(typeService.lisTypeByCount() + "????");
         return TYPE;
