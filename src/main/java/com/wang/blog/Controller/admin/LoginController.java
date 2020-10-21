@@ -14,18 +14,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author wangsiyuan
+ */
 @Controller
 @RequestMapping("/admin")
 public class LoginController {
 
-    @Autowired
     IUserService userService;
 
+    @Autowired
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
+
+    /**
+     *
+     * 跳转登录页面
+     */
     @GetMapping
     public String loginPage(){
         return "admin/login";
     }
 
+    /**
+     *
+     * 处理登录
+     */
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
@@ -47,6 +62,10 @@ public class LoginController {
         }
     }
 
+    /**
+     *
+     * 登出功能
+     */
     @GetMapping("/loginOut")
     public String loginOut(HttpSession session){
         session.removeAttribute("user");

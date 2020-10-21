@@ -47,7 +47,7 @@
   <!--中间内容-->
   <div  class="m-container-small m-padded-tb-big">
     <div class="ui container">
-      <form action="#" method="post"  th:object="${tag}" th:action="*{tag_id}==null ? @{/admin/tags/addType} : @{/admin/tags/{tag_id}(tag_id=*{tag_id})} "  class="ui form">
+      <form action="#" method="post"  th:object="${tag}" th:action="*{tag_id}==null ? @{/admin/tags/addTag} : @{/admin/tags/{tag_id}(tag_id=*{tag_id})} "  class="ui form">
         <input type="hidden" name="id" th:value="*{tag_id}">
         <div class=" field">
           <div class="ui left labeled input">

@@ -16,25 +16,51 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 @Controller
 @RequestMapping("/admin/blogs")
 public class BlogController {
 
-    //到编辑页面
+    /**
+     * 到编辑页面
+     */
     private static final String INPUT = "admin/blog-input";
-    //到列表页面
+    /**
+     * 到列表页面
+     */
     private static final String LIST = "admin/blogs";
-    //重定向到列表页面
+    /**
+     * 重定向到列表页面
+     */
     private static final String REDIRECT_LIST = "redirect:/admin/blogs/1";
 
-    @Autowired
+    /**
+     * 操作信息
+     */
+    private static final String MESSAGE = "message";
+
     private IBlogService service;
 
-    @Autowired
     private ITypeService typeService;
 
-    @Autowired
     private ITagService tagService;
+
+    @Autowired
+    public void setService(IBlogService service) {
+        this.service = service;
+    }
+
+    @Autowired
+    public void setTypeService(ITypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    @Autowired
+    public void setTagService(ITagService tagService) {
+        this.tagService = tagService;
+    }
 
     /**
      *
@@ -47,7 +73,7 @@ public class BlogController {
                        @PathVariable("id") Integer id,
                        HttpServletRequest request,
                        HttpSession session){
-        if(session.getAttribute("message") != null){
+        if(session.getAttribute(MESSAGE) != null){
             request.setAttribute("message",session.getAttribute("message"));
             session.removeAttribute("message");
         }
@@ -56,14 +82,16 @@ public class BlogController {
         page.setPage_size(5);
         blog.setRecommend(true);
         page.setList(service.getBlogOnPage(page));
-        System.out.println(page.getList());
         model.addAttribute("tags",tagService.listTag());
         model.addAttribute("types",typeService.listType());
         model.addAttribute("page",page);
-//        System.out.println(service.SearchBlog(page,blog).getList());
         return LIST;
     }
 
+    /**
+     *
+     * 搜索功能
+     */
     @PostMapping("/search")
     public String search(Model model, Blog blog, @RequestParam("page") Integer cur_page){
         System.out.println(cur_page);
@@ -81,14 +109,12 @@ public class BlogController {
         return "admin/blogs :: blogList";
     }
 
-//    @GetMapping("/input/{id}")
-//    public String ToInput(@PathVariable("id") Integer id){
-//
-//        return INPUT;
-//    }
-
+    /**
+     *
+     * 跳转到新增页面
+     */
     @GetMapping("/input")
-    public String ToInput(Model model){
+    public String toInput(Model model){
         model.addAttribute("tags",tagService.listTag());
         model.addAttribute("types",typeService.listType());
         model.addAttribute("blog",new Blog());
@@ -101,7 +127,7 @@ public class BlogController {
      * @return      进入博客修改页
      */
     @GetMapping("/input/{id}")
-    public String ToInput(Model model,@PathVariable("id") Long id){
+    public String toInput(Model model, @PathVariable("id") Long id){
         model.addAttribute("tags",tagService.listTag());
         model.addAttribute("types",typeService.listType());
         Blog blog = service.getBlog(id);
@@ -113,6 +139,10 @@ public class BlogController {
         return INPUT;
     }
 
+    /**
+     *
+     * 通过博客的id来判断是修改还是新增
+     */
     @PostMapping("/blogs")
     public String post(Blog blog, @RequestParam("Tag") String tagId, HttpSession session){
         List<Tag> tagSearch = tagService.getTagSearch(tagId);
@@ -136,8 +166,12 @@ public class BlogController {
         return REDIRECT_LIST;
     }
 
+    /**
+     * 删除博客
+     *
+     */
     @GetMapping("/delete/{id}")
-    public String Delete(@PathVariable("id") Long id){
+    public String delete(@PathVariable("id") Long id){
         service.deleteBlog(id);
         return REDIRECT_LIST;
     }
