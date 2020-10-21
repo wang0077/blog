@@ -13,18 +13,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author wangsiyuan
+ */
 @Controller
 public class CommentController {
 
-    @Autowired
+
     ICommentService commentService;
 
+    @Autowired
+    public void setCommentService(ICommentService commentService) {
+        this.commentService = commentService;
+    }
+
+    /**
+     *  获取博客底下的评论
+     *
+     */
     @GetMapping("/comment/{blogId}")
-    public String CommentList(@PathVariable("blogId") Long id, Model model){
+    public String commentList(@PathVariable("blogId") Long id, Model model){
         model.addAttribute("Comment",commentService.listCommentByBlogId(id));
         return "blog::commentList";
     }
 
+    /**
+     * 新增评论
+     *
+     */
     @PostMapping("/comment")
     public String post(Comment comment, HttpSession session){
         User user = (User) session.getAttribute("user");
@@ -37,9 +53,13 @@ public class CommentController {
         return "redirect:/comment/" + comment.getBlogId();
     }
 
+    /**
+     *
+     * 删除评论
+     */
     @PostMapping("/Comment/delete")
-    public String delete(@RequestParam("CommentId") Long CommentId,@RequestParam("BlogId") Long BlogId){
-        commentService.deleteComment(CommentId,BlogId);
-        return "redirect:/comment/" + BlogId;
+    public String delete(@RequestParam("CommentId") Long commentId, @RequestParam("BlogId") Long blogId){
+        commentService.deleteComment(commentId,blogId);
+        return "redirect:/comment/" + blogId;
     }
 }

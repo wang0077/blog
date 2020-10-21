@@ -50,7 +50,6 @@ public class LogAspect {
 
     @AfterReturning(returning = "result",pointcut = "log()")
     public void doAfterReturn(Object result){
-//        logger.info("-----------ReturnResult--------------");
         logger.info(String.format("Result : {}%s", result));
     }
 

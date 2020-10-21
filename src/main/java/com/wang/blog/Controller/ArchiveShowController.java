@@ -6,13 +6,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * @author wangsiyuan
+ */
 @Controller
 public class ArchiveShowController {
 
     private final static String ARCHIVE = "archives";
-    @Autowired
+
     private IBlogService blogService;
 
+    @Autowired
+    public void setBlogService(IBlogService blogService) {
+        this.blogService = blogService;
+    }
+
+    /**
+     *
+     * 归档页面
+     */
     @GetMapping("/archive")
     public String archive(Model model){
         model.addAttribute("count",blogService.getBlogCount());

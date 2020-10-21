@@ -10,20 +10,42 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author wangsiyuan
+ */
 @Controller
 public class IndexController {
 
-    @Autowired
+
     private IBlogService blogService;
-    @Autowired
+
     private ITypeService typeService;
-    @Autowired
+
     private ITagService tagService;
+
+    @Autowired
+    public void setBlogService(IBlogService blogService) {
+        this.blogService = blogService;
+    }
+
+    @Autowired
+    public void setTypeService(ITypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    @Autowired
+    public void setTagService(ITagService tagService) {
+        this.tagService = tagService;
+    }
 
     private static final String BLOG = "blog";
 
     private static final String SEARCH = "search";
 
+    /**
+     *
+     * 获取第几页的博客
+     */
     @GetMapping("/index/{id}")
     public String index(Model model, Blog blog,@PathVariable("id") int id){
         Page<Blog> page = new Page<>();
@@ -37,6 +59,10 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * 获取博客ID = id的博客
+     * @param id 博客的id
+     */
     @GetMapping("/blog/{id}")
     public String blog(Model model,@PathVariable("id") Long id){
         blogService.updateView(id);
@@ -47,8 +73,13 @@ public class IndexController {
         return BLOG;
     }
 
+    /**
+     * 获取搜索得到的第id页的博客
+     * @param id 第几页
+     * @param query 搜索的内容
+     */
     @PostMapping("/search/{id}")
-    public String Search(Model model,
+    public String search(Model model,
                          @PathVariable("id") int id,
                          @RequestParam String query){
         Page<Blog> page = new Page<>();
@@ -62,9 +93,4 @@ public class IndexController {
         return SEARCH;
     }
 
-//    @GetMapping("/footer/newBlog")
-//    public String newBlogs(Model model){
-//        model.addAttribute("newblogs",blogService.listBlogByFoot());
-//        return "fragments::newblogList";
-//    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 /**
+ * 加载登录的拦截器
  * @author wangsiyuan
  */
 @Configuration
@@ -19,8 +20,4 @@ public class LoginConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin","/admin/login");
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-
-    }
 }

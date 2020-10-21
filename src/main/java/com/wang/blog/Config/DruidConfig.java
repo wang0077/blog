@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Druid数据源的配置
  * @author wangsiyuan
  */
 @Configuration
@@ -29,7 +30,7 @@ public class DruidConfig {
     @Bean
     public ServletRegistrationBean<StatViewServlet> statViewServlet() {
         ServletRegistrationBean<StatViewServlet> bean = new ServletRegistrationBean<>(new StatViewServlet(), "/druid/*");
-        Map<String, String> initParams = new HashMap<>();
+        Map<String, String> initParams = new HashMap<>(2);
         initParams.put("loginUsername", "admin");
         initParams.put("loginPassword", "228913");
         bean.setInitParameters(initParams);

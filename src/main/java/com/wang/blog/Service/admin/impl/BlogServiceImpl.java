@@ -249,6 +249,7 @@ public class BlogServiceImpl implements IBlogService {
         }
     }
 
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteBlog(Long id) {
