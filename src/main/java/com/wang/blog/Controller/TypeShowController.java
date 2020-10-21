@@ -13,16 +13,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 @Controller
 public class TypeShowController {
 
     private static final String TYPE = "types";
 
-    @Autowired
     private ITypeService typeService;
-    @Autowired
+
     private IBlogService blogService;
 
+    @Autowired
+    public void setTypeService(ITypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    @Autowired
+    public void setBlogService(IBlogService blogService) {
+        this.blogService = blogService;
+    }
+
+    /**
+     * 获取分类id为typedId的博客的第id页内容
+     * @param typedId 标签id
+     * @param id 第几页
+     */
     @GetMapping("/type/{typeId}/{id}")
     public String type(Model model, @PathVariable("id") int id,@PathVariable("typeId") Long typedId){
         Page<Blog> page = new Page<>();
@@ -37,11 +54,7 @@ public class TypeShowController {
         blog.setType_id(typedId);
         model.addAttribute("count",typeService.countType());
         model.addAttribute("type",typeService.lisTypeByCount());
-//        SearchBlogServiceImpl searchBlogService = new SearchBlogServiceImpl(blogService);
         model.addAttribute("blog",blogService.listBlog(page,blog));
-//        System.out.println(blogService.SearchBlog(page,blog).getList().get(0));
-
-        System.out.println(typeService.lisTypeByCount() + "????");
         return TYPE;
     }
 }

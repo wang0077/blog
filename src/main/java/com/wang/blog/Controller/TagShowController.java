@@ -21,11 +21,26 @@ public class TagShowController {
 
     private static final String TAG = "tags";
     private static final int PAGE_SIZE = 8;
-    @Autowired
+
     private ITagService tagService;
-    @Autowired
+
     private IBlogService blogService;
 
+    @Autowired
+    public void setTagService(ITagService tagService) {
+        this.tagService = tagService;
+    }
+
+    @Autowired
+    public void setBlogService(IBlogService blogService) {
+        this.blogService = blogService;
+    }
+
+    /**
+     * 获取标签id为tagId的博客的第id页内容
+     * @param tagId 标签id
+     * @param id 第几页
+     */
     @GetMapping("/tag/{tagId}/{id}")
     public String tag(Model model,@PathVariable("tagId") Long tagId, @PathVariable("id") int id){
         List<Tag> tags = tagService.countListByTag();
