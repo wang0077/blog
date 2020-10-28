@@ -76,9 +76,9 @@
                   </div>
               </div>
           </div>
-          <div class="ui attached positive message">
+          <div class="ui attached positive message" th:if="${blog.shareStatement} != false">
 <!--              博客信息-->
-              <div class="ui middle aligned grid" th:if="${blog.shareStatement} != false">
+              <div class="ui middle aligned grid" >
                   <div class="eleven wide column">
                       <ul>
                           <li>作者: wAnG<a th:href="@{/about}" target="_blank">(联系作者)</a></li>
