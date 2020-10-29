@@ -15,11 +15,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.net.UnknownHostException;
 
 /**
+ * Redis序列化配置
  * @author wangsiyuan
  * @date 2020/10/14
  */
 
-//固定模板
 @Configuration
 public class RedisConfig {
 

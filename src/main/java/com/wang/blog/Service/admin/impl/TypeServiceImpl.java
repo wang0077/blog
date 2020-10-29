@@ -2,6 +2,7 @@ package com.wang.blog.service.admin.impl;
 
 import com.wang.blog.bean.Page;
 import com.wang.blog.bean.Type;
+import com.wang.blog.cache.redis.ITypeByRedis;
 import com.wang.blog.dao.admin.ITypeDao;
 import com.wang.blog.exception.NotFindException;
 import com.wang.blog.service.admin.ITypeService;
@@ -20,6 +21,14 @@ public class TypeServiceImpl implements ITypeService {
 
 
     private ITypeDao typeDao;
+
+    private ITypeByRedis typeByRedis;
+
+    @Autowired
+    public void setTypeByRedis(ITypeByRedis typeByRedis) {
+        this.typeByRedis = typeByRedis;
+    }
+
     @Autowired
     public void setTypeDao(ITypeDao typeDao) {
         this.typeDao = typeDao;
@@ -33,7 +42,13 @@ public class TypeServiceImpl implements ITypeService {
 
     @Override
     public Type getType(Long id) {
-        return typeDao.getTypeById(id);
+        Type type;
+        type = typeByRedis.getTypeById(id);
+        if(type == null){
+            type = typeDao.getTypeById(id);
+            typeByRedis.setType(type);
+        }
+        return type;
     }
 
     @Override
@@ -52,7 +67,8 @@ public class TypeServiceImpl implements ITypeService {
         }
 //        计算当前分页情况下需要从数据库从获取第几条到第几条的数据
         int start = page.getPage_size() * (page.getCur_Page() - 1);
-        page.setList(typeDao.listType(start,page.getPage_size()));
+        checkTypeSize();
+        page.setList(typeByRedis.getTypeByPage(start, page.getPage_size()));
         return page;
     }
 
@@ -70,20 +86,37 @@ public class TypeServiceImpl implements ITypeService {
             throw new NotFindException();
         }
         typeDao.updateType(id, name);
+        type.setName(name);
+        typeByRedis.updateType(id,type);
     }
 
     @Override
     public void deleteType(Long id) {
+        typeByRedis.deleteType(id);
         typeDao.deleteType(id);
     }
 
     @Override
     public Type getTypeByName(String name) {
-        return typeDao.getTypeByName(name);
+        checkTypeSize();
+        return typeByRedis.getTypeByName(name);
     }
 
     @Override
     public List<Type> listType() {
-        return typeDao.listTypeAll();
+        checkTypeSize();
+        return typeByRedis.listType();
     }
+
+    private void checkTypeSize(){
+        Long redisCount = typeByRedis.countType();
+        int daoCount = typeDao.countType();
+        if(redisCount != daoCount){
+            List<Type> types = typeDao.listTypeAll();
+            for(Type type : types){
+                typeByRedis.setType(type);
+            }
+        }
+    }
+
 }
