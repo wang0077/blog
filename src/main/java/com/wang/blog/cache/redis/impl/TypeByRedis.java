@@ -6,7 +6,6 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.wang.blog.bean.Type;
 import com.wang.blog.cache.redis.ITypeByRedis;
 import com.wang.blog.util.RedisUtil;
-import jdk.internal.org.objectweb.asm.TypeReference;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,6 +33,10 @@ public class TypeByRedis implements ITypeByRedis {
         this.redisUtil = redisUtil;
     }
 
+
+    @Override
+    public void countTypeByBlog() {
+    }
 
     @Override
     public void updateType(Long id,Type type) {

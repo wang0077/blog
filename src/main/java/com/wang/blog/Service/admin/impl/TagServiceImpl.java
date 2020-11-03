@@ -2,6 +2,8 @@ package com.wang.blog.service.admin.impl;
 
 import com.wang.blog.bean.Page;
 import com.wang.blog.bean.Tag;
+import com.wang.blog.bean.Type;
+import com.wang.blog.cache.redis.ITagByRedis;
 import com.wang.blog.dao.admin.ITagDao;
 import com.wang.blog.exception.NotFindException;
 import com.wang.blog.service.admin.ITagService;
@@ -22,6 +24,13 @@ public class TagServiceImpl implements ITagService {
 
     private ITagDao tagDao;
 
+    private ITagByRedis redis;
+
+    @Autowired
+    public void setRedis(ITagByRedis redis) {
+        this.redis = redis;
+    }
+
     @Autowired
     public void setTagDao(ITagDao tagDao) {
         this.tagDao = tagDao;
@@ -30,16 +39,30 @@ public class TagServiceImpl implements ITagService {
     @Override
     public void saveTag(String name) {
         tagDao.saveTag(name);
+        Tag tag = tagDao.getTagByName(name);
+        redis.setTag(tag);
     }
 
     @Override
     public Tag getTagById(Long id) {
-        return tagDao.getTagById(id);
+        Tag tag = redis.getTagById(id);
+        if(tag == null){
+            tag = tagDao.getTagById(id);
+            redis.setTag(tag);
+        }
+        return tag;
     }
 
     @Override
     public Tag getTagByName(String name) {
-        return tagDao.getTagByName(name);
+        Tag tag = redis.getTagByName(name);
+        if(tag == null){
+            tag = tagDao.getTagByName(name);
+            if(tag != null) {
+                redis.setTag(tag);
+            }
+        }
+        return tag;
     }
 
     @Override
@@ -53,15 +76,23 @@ public class TagServiceImpl implements ITagService {
         }
 //        计算当前页码需要的博客区间
         int start = page.getPage_size() * (page.getCur_Page() - 1);
-        page.setList(tagDao.listTag(start,page.getPage_size()));
+        checkTagSize();
+        page.setList(redis.getTagByPage(start,page.getPage_size()));
         return page;
     }
 
     @Override
-    public int getTagCount(){
-        return tagDao.countTag();
+    public Long getTagCount(){
+        checkTagSize();
+        return redis.countTag();
     }
 
+//
+
+    /**
+     *
+     * Redis未完成
+     */
     @Override
     public List<Tag> countListByTag() {
         return tagDao.countTagByBlog(0,20);
@@ -76,17 +107,21 @@ public class TagServiceImpl implements ITagService {
             throw new NotFindException();
         }
         tagDao.updateTag(id, name);
+        tag.setTag_name(name);
+        redis.updateTag(id,tag);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteTag(Long id) {
         tagDao.deleteTag(id);
+        redis.deleteTag(id);
     }
 
     @Override
     public List<Tag> listTag(){
-        return tagDao.listTagAll();
+        checkTagSize();
+        return redis.listTag();
     }
 
     @Override
@@ -98,11 +133,31 @@ public class TagServiceImpl implements ITagService {
         for (String s : split) {
             id.add(Integer.parseInt(s));
         }
-        return tagDao.getTagByBlog(id);
+        List<Tag> tags = redis.getTagByBlog(id);
+        if(tags.size() != id.size()){
+            tags = tagDao.getTagByBlog(id);
+            checkTagSize();
+        }
+        return tags;
     }
 
+    /**
+     *   Redis未完成
+     *
+     */
     @Override
     public List<Tag> getTagByBlogId(Long id) {
         return tagDao.getTagByBlogId(id);
+    }
+
+    private void checkTagSize(){
+        Long redisCount = redis.countTag();
+        int daoCount = tagDao.countTag();
+        if(redisCount != daoCount){
+            List<Tag> tags = tagDao.listTagAll();
+            for(Tag tag : tags){
+                redis.setTag(tag);
+            }
+        }
     }
 }

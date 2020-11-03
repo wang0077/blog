@@ -11,6 +11,12 @@ import java.util.List;
 public interface ITypeByRedis {
 
     /**
+     * 计算每个分类所拥有的博客数量
+     * @return 返回每个分类所拥有的博客数量
+     */
+    void countTypeByBlog();
+
+    /**
      * 更新分类
      * @param id 分类的Id
      * @param type 新的分类

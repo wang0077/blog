@@ -1,6 +1,8 @@
 package com.wang.blog.service.admin.impl;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.wang.blog.bean.Page;
+import com.wang.blog.bean.Tag;
 import com.wang.blog.bean.Type;
 import com.wang.blog.cache.redis.ITypeByRedis;
 import com.wang.blog.dao.admin.ITypeDao;
@@ -38,6 +40,7 @@ public class TypeServiceImpl implements ITypeService {
     @Transactional(rollbackFor = Exception.class)
     public void saveType(String name) {
         typeDao.saveType(name);
+        
     }
 
     @Override
@@ -46,7 +49,9 @@ public class TypeServiceImpl implements ITypeService {
         type = typeByRedis.getTypeById(id);
         if(type == null){
             type = typeDao.getTypeById(id);
-            typeByRedis.setType(type);
+            if(type != null){
+                typeByRedis.setType(type);
+            }
         }
         return type;
     }
@@ -73,8 +78,9 @@ public class TypeServiceImpl implements ITypeService {
     }
 
     @Override
-    public int countType() {
-        return typeDao.countType();
+    public Long countType() {
+        checkTypeSize();
+        return typeByRedis.countType();
     }
 
     @Override
@@ -92,14 +98,20 @@ public class TypeServiceImpl implements ITypeService {
 
     @Override
     public void deleteType(Long id) {
-        typeByRedis.deleteType(id);
         typeDao.deleteType(id);
+        typeByRedis.deleteType(id);
     }
 
     @Override
     public Type getTypeByName(String name) {
-        checkTypeSize();
-        return typeByRedis.getTypeByName(name);
+        Type type = typeByRedis.getTypeByName(name);
+        if(type == null){
+            type = typeDao.getTypeByName(name);
+            if(type != null){
+                typeByRedis.setType(type);
+            }
+        }
+        return type;
     }
 
     @Override

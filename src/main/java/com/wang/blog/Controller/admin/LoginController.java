@@ -58,6 +58,7 @@ public class LoginController {
         }else {
             user.setPassword(null);
             session.setAttribute("user",user);
+            session.setMaxInactiveInterval(0);
             return "admin/index";
         }
     }
