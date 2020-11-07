@@ -57,7 +57,6 @@ public class TagController {
         page.setCur_Page(curPage);
         page.setPage_size(10);
         Page<Tag> listType = service.listTag(page);
-        System.out.println(page.getPage_tot());
         if(session.getAttribute(OPERATION) != null){
             if(UPDATE.equals(session.getAttribute(OPERATION))){
                 model.addAttribute("message","恭喜，修改成功!");
@@ -71,7 +70,6 @@ public class TagController {
             }
         }
         model.addAttribute("page",listType);
-        System.out.println(listType.getList());
         return "admin/tags";
     }
 
@@ -135,7 +133,6 @@ public class TagController {
     @PostMapping("/addTag")
     public String addInput(@RequestParam("name") String name,
                            HttpSession session){
-        System.out.println(name);
         Tag tagByName = service.getTagByName(name);
         if(tagByName != null){
             session.setAttribute("msg","");

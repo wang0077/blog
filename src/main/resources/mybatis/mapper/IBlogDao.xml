@@ -95,7 +95,7 @@
         <result column="views" property="views"/>
         <association property="type" javaType="com.wang.blog.bean.Type">
             <id column="tid" property="id"/>
-            <result column="aaa" property="name"/>
+            <result column="tname" property="name"/>
         </association>
         <collection property="tagList" javaType="ArrayList" ofType="com.wang.blog.bean.Tag">
             <id column="aid" property="tag_id"/>
@@ -104,35 +104,8 @@
     </resultMap>
 
 
-
-<!--    <select id="SearchBlog" resultMap="SearchBlog">-->
-<!--        select  b.*,t.name as aaa ,t.id as tid from t_blog b-->
-<!--            <if test="blog.type_id != null">-->
-<!--                inner join t_type t on t.id = b.type_id and b.type_id = #{blog.type_id}-->
-<!--            </if>-->
-<!--            <if test="blog.type_id == null">-->
-<!--                inner join t_type t on t.id = b.type_id-->
-<!--            </if>-->
-<!--            <where>-->
-<!--                <if test="blog.title != null">-->
-<!--                    and b.title like #{blog.title}-->
-<!--                </if>-->
-<!--                <if test="blog.recommend == true">-->
-<!--                    and b.recommend = true-->
-<!--                </if>-->
-<!--                <if test="blog.recommend == false">-->
-<!--                    and b.recommend = false-->
-<!--                </if>-->
-<!--                <if test="blog.id != null">-->
-<!--                    and b.id = #{blog.id}-->
-<!--                </if>-->
-<!--            </where>-->
-<!--            limit #{start},#{end}-->
-<!--    </select>-->
-
-
     <select id="listBlog" resultMap="listBlog">
-        select  b.*,t.name as aaa ,t.id as tid from t_blog b
+        select  b.*,t.name as tname ,t.id as tid from t_blog b
         <if test="blog.type_id != null">
             inner join t_type t on t.id = b.type_id and b.type_id = #{blog.type_id}
         </if>
@@ -150,8 +123,8 @@
         limit #{start},#{end}
     </select>
 
-    <select id="listTypeIncludeBlog" resultMap="listBlog">
-        select  b.*,t.name as aaa ,t.id as tid from t_blog b
+    <select id="listTagIncludeBlog" resultMap="listBlog">
+        select  b.*,t.name as tname ,t.id as tid from t_blog b
             inner join t_type t on t.id = b.type_id
             where b.id in (select blogs_id from t_blog_tags  where tags_id = #{tid})
             limit #{start},#{end}
@@ -172,44 +145,16 @@
         <if test="blog.type_id == null">
             inner join t_type t on t.id = b.type_id
         </if>
-<!--        <where>-->
-<!--            <if test="blog.title != null">-->
-<!--                and b.title like #{blog.title}-->
-<!--            </if>-->
-<!--            <if test="blog.id != null">-->
-<!--                and b.id = #{blog.id}-->
-<!--            </if>-->
-<!--        </where>-->
     </select>
 
 
-<!--    <select id="getCount" resultType="java.lang.Integer">-->
-<!--        select  count(*) from t_blog b-->
-<!--        <if test="blog.type_id != null">-->
-<!--            inner join t_type t  on t.id = b.type_id and b.type_id = #{blog.type_id}-->
-<!--        </if>-->
-<!--        <if test="blog.type_id == null">-->
-<!--            inner join t_type t on t.id = b.type_id-->
-<!--        </if>-->
-<!--         <where>-->
-<!--            <if test="blog.title != null">-->
-<!--                and b.title like #{blog.title}-->
-<!--            </if>-->
-<!--            <if test="blog.title != null">-->
-<!--                and b.title like #{blog.title}-->
-<!--            </if>-->
-<!--            <if test="blog.recommend != null">-->
-<!--                and b.recommend = #{blog.recommend}-->
-<!--            </if>-->
-<!--         </where>-->
-<!--    </select>-->
 
     <select id="getBlogByTitle" resultType="com.wang.blog.bean.Blog">
         select * from t_blog where title = #{title}
     </select>
 
     <select id="listBlogWithType" resultMap="listBlog">
-        select b.*,t.name as aaa,t.id as tid from t_blog b inner join t_type t on t.id = b.type_id limit #{start},#{end}
+        select b.*,t.name as tname,t.id as tid from t_blog b inner join t_type t on t.id = b.type_id limit #{start},#{end}
     </select>
     <select id="countBlog" resultType="java.lang.Integer">
         select count(*) from t_blog
@@ -221,22 +166,18 @@
         select create_time from t_blog where id = #{id}
     </select>
     <select id="listBlogByTime" resultMap="listBlog" >
-        select  b.*,t.name as aaa ,t.id as tid from t_blog b
+        select  b.*,t.name as tname ,t.id as tid from t_blog b
         inner join t_type t on b.type_id = t.id
         order by b.update_time desc
         limit ${start},#{end}
     </select>
+
     <select id="listBlogByUpTime" resultType="com.wang.blog.bean.Blog">
         select * from t_blog where published = true and recommend = true order by update_time desc limit 0,5;
     </select>
-<!--    <select id="listBlogByUpTimeFoot" resultType="com.wang.blog.bean.Blog">-->
-<!--        select * from t_blog where published = true and recommend = true order by update_time desc limit 0,3;-->
-<!--    </select>-->
-<!--    <select id="getBlogCount" resultType="java.lang.Integer">-->
-<!--        select count(*) from t_blog-->
-<!--    </select>-->
+
     <select id="searchBlog" resultMap="listBlog">
-        select  b.*,t.name as aaa ,t.id as tid from t_blog b
+        select  b.*,t.name as tname ,t.id as tid from t_blog b
             inner join t_type t on t.id = b.type_id
                 where title like #{query} or description like #{query}
                 limit #{start},#{end}
@@ -253,5 +194,13 @@
 
     <select id="getBlogByYear" resultMap="listBlog" >
         select * from t_blog where date_format(create_time,'%Y') = #{year}
+    </select>
+
+    <select id="listBlogAll" resultMap="listBlog" >
+        select b.*,t.id as tid,t.name as tname,a.id as aid,a.name as aname
+        from t_blog b inner join t_type t
+            on b.type_id = t.id
+        inner join t_tag a ,t_blog_tags
+        where b.id = t_blog_tags.blogs_id and a.id = t_blog_tags.tags_id
     </select>
 </mapper>

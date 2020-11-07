@@ -1,20 +1,21 @@
 package com.wang.blog.service.admin.impl;
 
-import com.wang.blog.bean.Blog;
-import com.wang.blog.bean.Comment;
-import com.wang.blog.bean.Page;
-import com.wang.blog.bean.Tag;
+import com.wang.blog.bean.*;
+import com.wang.blog.cache.redis.*;
 import com.wang.blog.dao.ICommentDao;
 import com.wang.blog.dao.admin.IBlogDao;
 import com.wang.blog.dao.admin.ITagDao;
+import com.wang.blog.dao.admin.ITypeDao;
 import com.wang.blog.exception.NotFindException;
 import com.wang.blog.service.admin.IBlogService;
 import com.wang.blog.tree.CommentTree;
 import com.wang.blog.util.MarkdownUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.annotation.Retention;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,7 +31,56 @@ public class BlogServiceImpl implements IBlogService {
 
     private ITagDao tagDao;
 
+    private ITypeDao typeDao;
+
     private ICommentDao commentDao;
+
+    private IBlogByRedis blogByRedis;
+
+    private ITagBlogByRedis tagBlogByRedis;
+
+    private ITagByRedis tagByRedis;
+
+    private ITypeByRedis typeByRedis;
+
+    private ICommentByRedis commentByRedis;
+
+    private RedisTemplate<String,Object> redisTemplate;
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @Autowired
+    public void setTypeDao(ITypeDao typeDao) {
+        this.typeDao = typeDao;
+    }
+
+    @Autowired
+    public void setCommentByRedis(ICommentByRedis commentByRedis) {
+        this.commentByRedis = commentByRedis;
+    }
+
+    @Autowired
+    public void setTagByRedis(ITagByRedis tagByRedis) {
+        this.tagByRedis = tagByRedis;
+    }
+
+    @Autowired
+    public void setTypeByRedis(ITypeByRedis typeByRedis) {
+        this.typeByRedis = typeByRedis;
+    }
+
+    @Autowired
+    public void setTagBlogByRedis(ITagBlogByRedis tagBlogByRedis) {
+        this.tagBlogByRedis = tagBlogByRedis;
+    }
+
+    @Autowired
+    public void setBlogByRedis(IBlogByRedis blogByRedis) {
+        this.blogByRedis = blogByRedis;
+    }
 
     @Autowired
     public void setBlogDao(IBlogDao blogDao) {
@@ -63,19 +113,42 @@ public class BlogServiceImpl implements IBlogService {
         return stringBuffer.toString();
     }
 
+//    完成
     @Override
     public Blog getBlog(Long id) {
-        return blogDao.getBlogById(id);
+        Blog blog = blogByRedis.getBlogById(id);
+        if(blog == null){
+            blog = getMarkDownBlog(id);
+        }
+        return blog;
     }
 
+//    完成
     @Override
     public Blog getMarkDownBlog(Long id) {
-        Blog blog = blogDao.getBlogById(id);
-        if(blog == null){
-            throw new NotFindException("该博客不存在");
+        Blog blog = blogByRedis.getBlogById(id);
+        if(blog.getId() == null){
+            blog = blogDao.getBlogById(id);
+            if(blog == null){
+                throw new NotFindException("该博客不存在");
+            }
+//          将博客的内容MarkDown格式转化为HTML
+            blog.setContent(MarkdownUtil.markdownToHtmlExtensions(blog.getContent()));
+            blog.setType(typeByRedis.getTypeById(blog.getType_id()));
+            List<Integer> tagIds = tagBlogByRedis.listTagByBlogId(blog.getId());
+            if(tagIds.size() == 0){
+                List<Tag> tags = tagDao.getTagByBlogId(blog.getId());
+            }
+            tagIds = tagBlogByRedis.listTagByBlogId(blog.getId());
+            List<Tag> tags = new ArrayList<>();
+            for (Integer tagId : tagIds){
+                Tag tag = tagByRedis.getTagById((long) tagId);
+                tags.add(tag);
+            }
+            blog.setTagList(tags);
+            blogByRedis.saveBlog(blog);
+
         }
-//        将博客的内容MarkDown格式转化为HTML
-        blog.setContent(MarkdownUtil.markdownToHtmlExtensions(blog.getContent()));
         return blog;
     }
 
@@ -83,6 +156,11 @@ public class BlogServiceImpl implements IBlogService {
     @Transactional(rollbackFor = Exception.class)
     public void updateView(Long id) {
         blogDao.updateView(id);
+        Blog blog = blogByRedis.getBlogById(id);
+        blog.setViews(blog.getViews() + 1);
+        blogByRedis.saveBlog(blog);
+//        blogByRedis.delBlog(id);
+//        checkSize();
     }
 
     @Override
@@ -106,12 +184,12 @@ public class BlogServiceImpl implements IBlogService {
 //            为查询字段添加百分号
             blog.setTitle(tranQuery(blog.getTitle()));
         }
-        int count = blogDao.countTypeIncludeBlog(blog);
+        int count = blogByRedis.countBlogByType(blog.getType_id());
         page.setPage_count(count);
         if(count != 0){
             getPageTot(page);
             int start = getStart(page);
-            page.setList(blogDao.listBlog(start,page.getPage_size(),blog));
+            page.setList(blogByRedis.listBlogOnPage(start,page.getPage_size(),blogByRedis.listBlogByType(blog.getType_id())));
         }
         return page;
     }
@@ -127,34 +205,40 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public Page<Blog> listBlogByTag(Page<Blog> page, Long tagId) {
-        int count = blogDao.countBlogByTag(tagId);
+        checkSize();
+        int count = blogByRedis.countBlogByTag(tagId);
         page.setPage_count(count);
         if(count != 0){
             getPageTot(page);
             int start = getStart(page);
-            page.setList(blogDao.listTypeIncludeBlog(start,page.getPage_size(), tagId));
+            page.setList(blogByRedis.listBlogOnPage(start,page.getPage_size(),blogByRedis.listBlogByTag(tagId)));
+//            page.setList(blogDao.listTagIncludeBlog(start,page.getPage_size(), tagId));
         }
         return page;
     }
 
     @Override
     public Page<Blog> listBlog(Page<Blog> page) {
-        page.setPage_count(blogDao.countBlog());
+        page.setPage_count(blogByRedis.countByBlog());
         Page<Blog> curBlog = getPageTot(page);
         int start  = getStart(curBlog);
-        page.setList(blogDao.listBlogByTime(start,page.getPage_size()));
+        checkSize();
+        page.setList(blogByRedis.listBlogWithUpTimeOnPage(start,page.getPage_size()));
         return page;
     }
 
+//    完成
     @Override
     public List<Blog> listBlogByTime() {
-        return blogDao.listBlogByUpTime();
+        checkSize();
+        return blogByRedis.listBlogWithUpTime();
     }
 
 
+//    完成
     @Override
     public int getBlogCount() {
-        return blogDao.countBlog();
+        return blogByRedis.countByBlog();
     }
 
     /**
@@ -181,18 +265,20 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public List<Blog> getBlogOnPage(Page<Blog> page) {
-        int count = blogDao.countBlog();
+        int count = blogByRedis.countByBlog();
         page.setPage_count(count);
         getPageTot(page);
         if(page.getPage_tot() == 0){
             page.setPage_tot(1);
         }
         int start = getStart(page);
-        return blogDao.listBlogWithType(start,page.getPage_size());
+        checkSize();
+        return blogByRedis.listBlogOnPage(start,page.getPage_size());
     }
 
 
 
+//    完成（可能需要重新处理事务）
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Blog saveBlog(Blog blog,List<Tag> tags) {
@@ -202,12 +288,13 @@ public class BlogServiceImpl implements IBlogService {
         blog.setUpdateTime(new Date());
         blog.setViews(0);
         blogDao.saveBlog(blog);
-        blog = blogDao.getBlogByTitle(blog.getTitle());
 //        再次获取博客Id,对标签进行存储
         Long bid = blog.getId();
         for (Tag tag : tags){
             blogDao.saveBlogTag(bid,tag.getTag_id());
         }
+        syncRedisByBlog(blog);
+        blogByRedis.addSize();
         return blog;
     }
 
@@ -235,6 +322,7 @@ public class BlogServiceImpl implements IBlogService {
         }
     }
 
+//    完成
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateBlog(Long id, Blog blog) {
@@ -247,9 +335,10 @@ public class BlogServiceImpl implements IBlogService {
         for (Tag tag : blog.getTagList()){
             blogDao.saveBlogTag(blog.getId(),tag.getTag_id());
         }
+        blogByRedis.delBlog(blog.getId());
     }
 
-
+//  完成
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteBlog(Long id) {
@@ -257,9 +346,11 @@ public class BlogServiceImpl implements IBlogService {
         deleteComment(id);
         tagDao.deleteTagBlog(id);
         blogDao.deleteBlog(id);
+        blogByRedis.delBlog(id);
+        blogByRedis.decSize();
     }
 
-
+//  完成
     /**
      * 删除所有评论功能主体部分,构造多叉树,进行深搜对评论进行删除
      * @param id 博客Id
@@ -327,19 +418,41 @@ public class BlogServiceImpl implements IBlogService {
 
 
 
+//    完成
     /**
      *  归档功能,找出各个年份对应的博客
      */
     @Override
     public Map<String, List<Blog>> listBlogByYear() {
 //        获取已有的博客年份
-        List<String> year = blogDao.getYear();
+        List<String> year = blogByRedis.getYear();
 //        一个年份对应一个List<Blog>
         Map<String,List<Blog>> map = new LinkedHashMap<>();
         for (String str : year){
 //            传入年份进行查找博客
-            map.put(str,blogDao.getBlogByYear(str));
+            map.put(str,blogByRedis.getBlogByYear(str));
         }
         return map;
     }
+
+    private void checkSize() {
+        @SuppressWarnings("all")
+        int daoCount = (int)redisTemplate.opsForValue().get("BlogSize");
+        int redisCount = blogByRedis.countByBlog();
+        if(redisCount != daoCount){
+            List<Blog> blogs = blogDao.listBlogAll();
+            for (Blog blog : blogs){
+                syncRedisByBlog(blog);
+            }
+        }
+    }
+
+    private void syncRedisByBlog(Blog blog){
+        //          将博客的内容MarkDown格式转化为HTML
+        blog.setContent(MarkdownUtil.markdownToHtmlExtensions(blog.getContent()));
+        blogByRedis.saveBlog(blog);
+    }
 }
+
+
+

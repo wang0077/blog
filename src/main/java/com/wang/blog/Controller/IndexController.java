@@ -68,8 +68,6 @@ public class IndexController {
         blogService.updateView(id);
         model.addAttribute("blog",blogService.getMarkDownBlog(id));
         model.addAttribute("tag",tagService.getTagByBlogId(id));
-        System.out.println(tagService.getTagByBlogId(id));
-        System.out.println(blogService.getMarkDownBlog(id));
         return BLOG;
     }
 
@@ -88,7 +86,6 @@ public class IndexController {
         blog.setTitle(query);
         page.setPage_size(6);
         model.addAttribute("page",blogService.searchBlogByString(page,query));
-        System.out.println(blogService.searchBlogByString(page,query));
         model.addAttribute("query",query);
         return SEARCH;
     }

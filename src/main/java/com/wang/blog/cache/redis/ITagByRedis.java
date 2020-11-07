@@ -4,7 +4,18 @@ import com.wang.blog.bean.Tag;
 
 import java.util.List;
 
+/**
+ * @author wangsiyuan
+ */
 public interface ITagByRedis {
+
+    /**
+     * 获取每个标签的信息（包括具有的博客数量）
+     * @param start 起始位置
+     * @param end 结束位置
+     * @return 返回完整的标签信息（包括每个标签具有的博客数量）
+     */
+    List<Tag> listTagByBlogId(int start,int end);
 
     /**
      * 通过List中的id获取标签实体
@@ -64,4 +75,14 @@ public interface ITagByRedis {
      * @param tag 需要储存的Tag
      */
     void setTag(Tag tag);
+
+    /**
+     * 增加标签的计数器
+     */
+    void addSize();
+
+    /**
+     * 减少标签的计数器
+     */
+    void decSize();
 }

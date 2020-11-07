@@ -12,9 +12,11 @@ public interface ITypeByRedis {
 
     /**
      * 计算每个分类所拥有的博客数量
-     * @return 返回每个分类所拥有的博客数量
+     * @param start 起始位置
+     * @param end 结束位置
+     * @return  返回每个分类所拥有的博客数量
      */
-    void countTypeByBlog();
+    List<Type> countTypeByBlog(int start,int end);
 
     /**
      * 更新分类
@@ -68,4 +70,14 @@ public interface ITypeByRedis {
      * @return 返回是否操作成功
      */
     void setType(Type type);
+
+    /**
+     * 增加分类的计数器
+     */
+    void addSize();
+
+    /**
+     * 减少分类的计数器
+     */
+    void decSize();
 }

@@ -54,7 +54,6 @@ public class TagShowController {
         model.addAttribute("count",tagService.getTagCount());
         model.addAttribute("page",blogService.listBlogByTag(page,tagId));
         model.addAttribute("tagId",tagId);
-        System.out.println(blogService.listBlogByTag(page,tagId).getList());
         return TAG;
     }
 }

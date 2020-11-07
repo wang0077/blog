@@ -47,11 +47,7 @@ public class LoginController {
                         HttpSession session,
                         RedirectAttributes attributes){
         //MD5加密，确保密码传输安全
-        System.out.println(userService + "ser");
-        System.out.println(DigestUtils.md5DigestAsHex(password.getBytes()));
-
         User user = userService.checkUser(username,DigestUtils.md5DigestAsHex(password.getBytes()));
-        System.out.println(DigestUtils.md5DigestAsHex(password.getBytes()) + "!!!!!!------密码");
         if(user == null){
             attributes.addFlashAttribute("message","用户名或密码错误!");
             return "redirect:/admin";

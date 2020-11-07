@@ -50,7 +50,6 @@ public class TypeShowController {
             typedId = types.get(0).getId();
         }
         Blog blog = new Blog();
-        System.out.println(typedId);
         blog.setType_id(typedId);
         model.addAttribute("count",typeService.countType());
         model.addAttribute("type",typeService.lisTypeByCount());

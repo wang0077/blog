@@ -35,7 +35,16 @@ public class TypeByRedis implements ITypeByRedis {
 
 
     @Override
-    public void countTypeByBlog() {
+    public List<Type> countTypeByBlog(int start,int end) {
+        Set<Object> set = redisTemplate.opsForZSet().range("Type", start, end);
+        List<Type> types = new ArrayList<>();
+        if(set != null){
+            for (Object t : set){
+                Type type = BeanUtil.mapToBean((Map<?, ?>) t, Type.class, false, CopyOptions.create());
+                types.add(type);
+            }
+        }
+        return types;
     }
 
     @Override
@@ -115,5 +124,15 @@ public class TypeByRedis implements ITypeByRedis {
     public void setType(Type type) {
         redisTemplate.opsForZSet().add("Type",type,(double)type.getId());
         redisTemplate.expire("Type",15, TimeUnit.DAYS);
+    }
+
+    @Override
+    public void addSize() {
+        redisTemplate.opsForValue().increment("TypeSize");
+    }
+
+    @Override
+    public void decSize() {
+        redisTemplate.opsForValue().decrement("TypeSize");
     }
 }

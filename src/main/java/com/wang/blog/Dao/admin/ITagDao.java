@@ -84,7 +84,7 @@ public interface ITagDao {
     List<Tag> getTagByBlog(List<Integer> list);
 
     /**
-     * 获取该博客的所以标签
+     * 获取该博客的所有标签
      * @param id 当前博客的Id
      * @return 返回得到的标签
      */

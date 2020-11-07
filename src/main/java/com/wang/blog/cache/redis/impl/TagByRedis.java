@@ -34,13 +34,28 @@ public class TagByRedis implements ITagByRedis {
 
 
     @Override
+    public List<Tag> listTagByBlogId(int start, int end) {
+        Set<Object> set = redisTemplate.opsForZSet().range("Tag", start, end);
+        List<Tag> tags = new LinkedList<>();
+        if(set != null){
+            for (Object t : set){
+                Tag tag = BeanUtil.mapToBean((Map<?, ?>) t, Tag.class, false, CopyOptions.create());
+                tags.add(tag);
+            }
+        }
+        return tags;
+    }
+
+    @Override
     public List<Tag> getTagByBlog(List<Integer> ids) {
         List<Tag> tags = new ArrayList<>();
         for(Integer id : ids){
-            Object json = redisTemplate.opsForHash().get("Tag", id);
-            if(json != null) {
-                Tag tag = BeanUtil.mapToBean((Map<?, ?>) json, Tag.class, false, CopyOptions.create());
-                tags.add(tag);
+            Set<Object> json = redisTemplate.opsForZSet().rangeByScore("Tag", id, id);
+            if (json != null) {
+                for (Object t : json){
+                    Tag tag = BeanUtil.mapToBean((Map<?, ?>) t, Tag.class, false, CopyOptions.create());
+                    tags.add(tag);
+                }
             }
         }
         return tags;
@@ -123,5 +138,15 @@ public class TagByRedis implements ITagByRedis {
     public void setTag(Tag tag) {
         redisTemplate.opsForZSet().add("Tag",tag,(double)tag.getTag_id());
         redisTemplate.expire("Tag",15, TimeUnit.DAYS);
+    }
+
+    @Override
+    public void decSize() {
+        redisTemplate.opsForValue().decrement("TagSize");
+    }
+
+    @Override
+    public void addSize() {
+        redisTemplate.opsForValue().increment("TagSize");
     }
 }

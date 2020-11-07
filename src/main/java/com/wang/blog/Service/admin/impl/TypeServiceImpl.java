@@ -10,6 +10,7 @@ import com.wang.blog.exception.NotFindException;
 import com.wang.blog.service.admin.ITypeService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,13 @@ public class TypeServiceImpl implements ITypeService {
 
     private ITypeByRedis typeByRedis;
 
+    private RedisTemplate<String,Object> redisTemplate;
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
     @Autowired
     public void setTypeByRedis(ITypeByRedis typeByRedis) {
         this.typeByRedis = typeByRedis;
@@ -40,7 +48,7 @@ public class TypeServiceImpl implements ITypeService {
     @Transactional(rollbackFor = Exception.class)
     public void saveType(String name) {
         typeDao.saveType(name);
-        
+        typeByRedis.addSize();
     }
 
     @Override
@@ -58,12 +66,14 @@ public class TypeServiceImpl implements ITypeService {
 
     @Override
     public List<Type> lisTypeByCount() {
-        return typeDao.listTypeByCountBlog(0,6);
+        checkTypeSize();
+        return typeByRedis.countTypeByBlog(0,6);
     }
 
     @Override
     public Page<Type> listType(@NotNull Page<Type> page) {
-        page.setPage_count(typeDao.countType());
+        checkTypeSize();
+        page.setPage_count(Math.toIntExact(typeByRedis.countType()));
 //        计算当前一页存放N条情况下,总共有多少页
         page.setPage_tot(page.getPage_count() / page.getPage_size() + page.getPage_count() / page.getPage_size() == 0 ? 0 :1);
 //        如果分页不足一页
@@ -100,6 +110,7 @@ public class TypeServiceImpl implements ITypeService {
     public void deleteType(Long id) {
         typeDao.deleteType(id);
         typeByRedis.deleteType(id);
+        typeByRedis.decSize();
     }
 
     @Override
@@ -122,11 +133,14 @@ public class TypeServiceImpl implements ITypeService {
 
     private void checkTypeSize(){
         Long redisCount = typeByRedis.countType();
-        int daoCount = typeDao.countType();
+        @SuppressWarnings("all")
+        int daoCount = (int)redisTemplate.opsForValue().get("TypeSize");
         if(redisCount != daoCount){
+//            获取完整的Type,包括分类所拥有的博客的数
+
             List<Type> types = typeDao.listTypeAll();
             for(Type type : types){
-                typeByRedis.setType(type);
+                typeByRedis.setType(type);  
             }
         }
     }

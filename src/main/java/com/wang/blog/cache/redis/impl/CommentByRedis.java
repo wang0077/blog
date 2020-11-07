@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wangsiyuan
@@ -31,6 +32,7 @@ public class CommentByRedis implements ICommentByRedis {
     public void saveComment(List<Comment> comments, Long id) {
         for(Comment comment : comments){
             redisTemplate.opsForList().leftPush("Comment:" + id,comment);
+            redisTemplate.expire("Comment:" + id,15, TimeUnit.DAYS);
         }
     }
 
@@ -40,7 +42,6 @@ public class CommentByRedis implements ICommentByRedis {
         List<Comment> comments = new ArrayList<>();
         if(json != null) {
             for (Object s : json) {
-//                System.out.println(s.getClass());
                 Comment comment = BeanUtil.mapToBean((Map<?, ?>) s, Comment.class, false, CopyOptions.create());
                 comments.add(comment);
             }

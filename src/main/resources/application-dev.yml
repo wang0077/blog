@@ -23,6 +23,7 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   redis:
     host: 139.9.131.101
+    password: 228913
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
