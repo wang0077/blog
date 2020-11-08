@@ -31,8 +31,6 @@ public class BlogServiceImpl implements IBlogService {
 
     private ITagDao tagDao;
 
-    private ITypeDao typeDao;
-
     private ICommentDao commentDao;
 
     private IBlogByRedis blogByRedis;
@@ -43,23 +41,12 @@ public class BlogServiceImpl implements IBlogService {
 
     private ITypeByRedis typeByRedis;
 
-    private ICommentByRedis commentByRedis;
 
     private RedisTemplate<String,Object> redisTemplate;
 
     @Autowired
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
-    }
-
-    @Autowired
-    public void setTypeDao(ITypeDao typeDao) {
-        this.typeDao = typeDao;
-    }
-
-    @Autowired
-    public void setCommentByRedis(ICommentByRedis commentByRedis) {
-        this.commentByRedis = commentByRedis;
     }
 
     @Autowired
@@ -212,7 +199,6 @@ public class BlogServiceImpl implements IBlogService {
             getPageTot(page);
             int start = getStart(page);
             page.setList(blogByRedis.listBlogOnPage(start,page.getPage_size(),blogByRedis.listBlogByTag(tagId)));
-//            page.setList(blogDao.listTagIncludeBlog(start,page.getPage_size(), tagId));
         }
         return page;
     }
@@ -278,7 +264,6 @@ public class BlogServiceImpl implements IBlogService {
 
 
 
-//    完成（可能需要重新处理事务）
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Blog saveBlog(Blog blog,List<Tag> tags) {
@@ -322,7 +307,6 @@ public class BlogServiceImpl implements IBlogService {
         }
     }
 
-//    完成
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateBlog(Long id, Blog blog) {
@@ -338,7 +322,6 @@ public class BlogServiceImpl implements IBlogService {
         blogByRedis.delBlog(blog.getId());
     }
 
-//  完成
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteBlog(Long id) {
@@ -350,7 +333,6 @@ public class BlogServiceImpl implements IBlogService {
         blogByRedis.decSize();
     }
 
-//  完成
     /**
      * 删除所有评论功能主体部分,构造多叉树,进行深搜对评论进行删除
      * @param id 博客Id

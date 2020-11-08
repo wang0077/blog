@@ -1,5 +1,7 @@
 package com.wang.blog.component;
 
+import com.google.common.hash.Funnel;
+import com.wang.blog.component.bloomfilter.BloomFilterHelper;
 import com.wang.blog.dao.admin.IBlogDao;
 import com.wang.blog.dao.admin.ITagDao;
 import com.wang.blog.dao.admin.ITypeDao;

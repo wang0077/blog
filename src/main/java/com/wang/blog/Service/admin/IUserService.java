@@ -14,4 +14,6 @@ public interface IUserService{
      * @return 查询到用户
      */
     public User checkUser(String username ,String password);
+
+
 }
