@@ -2,6 +2,7 @@ package com.wang.blog.controller;
 
 import com.wang.blog.bean.Blog;
 import com.wang.blog.bean.Page;
+import com.wang.blog.exception.NotFindException;
 import com.wang.blog.service.admin.IBlogService;
 import com.wang.blog.service.admin.ITagService;
 import com.wang.blog.service.admin.ITypeService;
@@ -65,11 +66,10 @@ public class IndexController {
      */
     @GetMapping("/blog/{id}")
     public String blog(Model model,@PathVariable("id") Long id){
+        Blog blog = blogService.getMarkDownBlog(id);
+        model.addAttribute("blog", blog);
+        model.addAttribute("tag", tagService.getTagByBlogId(id));
         blogService.updateView(id);
-        model.addAttribute("blog",blogService.getMarkDownBlog(id));
-        model.addAttribute("tag",tagService.getTagByBlogId(id));
-        System.out.println(tagService.getTagByBlogId(id));
-        System.out.println(blogService.getMarkDownBlog(id));
         return BLOG;
     }
 
@@ -88,7 +88,6 @@ public class IndexController {
         blog.setTitle(query);
         page.setPage_size(6);
         model.addAttribute("page",blogService.searchBlogByString(page,query));
-        System.out.println(blogService.searchBlogByString(page,query));
         model.addAttribute("query",query);
         return SEARCH;
     }

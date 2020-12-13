@@ -28,7 +28,8 @@
         select * from t_type where name = #{name}
     </select>
     <select id="listTypeAll" resultType="com.wang.blog.bean.Type">
-        select * from t_type
+        select t.id,t.name,count(tb.id) as count from t_type t
+            inner join t_blog tb on t.id = tb.type_id  group by tb.type_id
     </select>
     <select id="listTypeByCountBlog" resultType="com.wang.blog.bean.Type">
         select t.id,t.name,count(tb.id) as count from t_type t

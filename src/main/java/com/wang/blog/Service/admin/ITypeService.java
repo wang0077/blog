@@ -41,7 +41,7 @@ public interface ITypeService {
      * 获取分类的数量
      * @return 返回分类的数量
      */
-    int countType();
+    Long countType();
 
     /**
      * 更新分类

@@ -94,7 +94,6 @@ public class BlogController {
      */
     @PostMapping("/search")
     public String search(Model model, Blog blog, @RequestParam("page") Integer cur_page){
-        System.out.println(cur_page);
         if("".equals(blog.getTitle())){
             blog.setTitle(null);
         }
@@ -104,7 +103,6 @@ public class BlogController {
         }
         page.setCur_Page(cur_page);
         page.setPage_size(5);
-        System.out.println(blog);
         model.addAttribute("page",service.listBlog(page,blog));
         return "admin/blogs :: blogList";
     }
@@ -130,11 +128,10 @@ public class BlogController {
     public String toInput(Model model, @PathVariable("id") Long id){
         model.addAttribute("tags",tagService.listTag());
         model.addAttribute("types",typeService.listType());
-        Blog blog = service.getBlog(id);
+        Blog blog = service.getMarkDownBlog(id);
         blog.setTagList(tagService.getTagByBlogId(id));
         blog.setTag_id(service.getTagIds(blog.getTagList()));
         blog.setType(typeService.getType(blog.getType_id()));
-        System.out.println(blog);
         model.addAttribute("blog",blog);
         return INPUT;
     }

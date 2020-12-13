@@ -11,10 +11,11 @@ import javax.servlet.http.HttpServletResponse;
  * 设置登录的拦截器
  * @author wangsiyuan
  */
-@Component
+//@Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     private static final String USER = "user";
+
 
     @Override
     public boolean preHandle(HttpServletRequest request,

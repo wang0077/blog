@@ -58,7 +58,6 @@ public class TypeController {
         page.setCur_Page(curPage);
         page.setPage_size(10);
         Page<Type> listType = service.listType(page);
-        System.out.println(page.getPage_tot());
         if(session.getAttribute(OPERATION) != null){
             if(UPDATE.equals(session.getAttribute(OPERATION))){
                 model.addAttribute("message","恭喜，修改成功!");

@@ -26,8 +26,8 @@ public class Tag implements Serializable {
     private List<Blog> blogList = new ArrayList<>();
 
     public Tag() {
-    }
 
+    }
     public Long getTag_id() {
         return tag_id;
     }

@@ -1,6 +1,7 @@
 package com.wang.blog.service.impl;
 
 import com.wang.blog.bean.Comment;
+import com.wang.blog.cache.redis.impl.CommentByRedis;
 import com.wang.blog.dao.ICommentDao;
 import com.wang.blog.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class CommentServiceImpl implements ICommentService {
 
     private ICommentDao commentDao;
 
+    private CommentByRedis redis;
+
+    @Autowired
+    public void setRedis(CommentByRedis redis) {
+        this.redis = redis;
+    }
+
     @Autowired
     public void setCommentDao(ICommentDao commentDao) {
         this.commentDao = commentDao;
@@ -43,7 +51,14 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<Comment> listCommentByBlogId(Long id) {
 //        获取该博客下所有的评论
-        List<Comment> comments = commentDao.listCommentByBlogId(id);
+        List<Comment> comments = redis.listComment(id);
+        System.out.println(comments.size() + "!!!!!!!!");
+        if(comments == null || comments.size() == 0){
+            comments = commentDao.listCommentByBlogId(id);
+            if(comments != null && comments.size() != 0){
+                redis.saveComment(comments,id);
+            }
+        }
         List<Comment> commentList = new ArrayList<>();
         for (Comment comment : comments){
 //            如果该评论没有父节点，则认为是根节点
@@ -102,6 +117,10 @@ public class CommentServiceImpl implements ICommentService {
             comment.setParentId(null);
         }
         commentDao.saveComment(comment);
+        Long blogId = comment.getBlogId();
+        redis.deleteComment(blogId);
+        List<Comment> comments = commentDao.listCommentByBlogId(blogId);
+        redis.saveComment(comments,blogId);
     }
 
     /**
@@ -113,5 +132,8 @@ public class CommentServiceImpl implements ICommentService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteComment(Long commentId, Long blogId) {
         commentDao.deleteComment(commentId,blogId,REPLACE_STR);
+        redis.deleteComment(blogId);
+        List<Comment> comments = commentDao.listCommentByBlogId(blogId);
+        redis.saveComment(comments,blogId);
     }
 }

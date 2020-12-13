@@ -11,7 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * 加载登录的拦截器
  * @author wangsiyuan
  */
-@Configuration
+
+//@Configuration
 public class LoginConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

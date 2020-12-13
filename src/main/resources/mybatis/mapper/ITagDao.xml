@@ -38,7 +38,9 @@
         select count(*) from t_tag
     </select>
     <select id="listTagAll" resultMap="list">
-        select * from t_tag
+        select count(blogs_id) as count,t.id,t.name from t_tag t
+        inner join t_blog_tags tbt on t.id = tbt.tags_id
+        group by tbt.tags_id
     </select>
     <select id="getTagByBlog" parameterType="java.util.List" resultMap="list">
         select * from t_tag where id in

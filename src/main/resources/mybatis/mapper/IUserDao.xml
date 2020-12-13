@@ -6,4 +6,7 @@
     <select id="findByUser" resultType="com.wang.blog.bean.User">
         select * from t_user where password = #{password} and username = #{username};
     </select>
+    <select id="loadUserByName" resultType="com.wang.blog.bean.User">
+        select * from t_user where username = #{username}
+    </select>
 </mapper>

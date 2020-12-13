@@ -48,7 +48,7 @@ public interface IBlogDao {
      * @param tid 博客Id
      * @return 返回博客内容(包括标签信息)
      */
-    List<Blog> listTypeIncludeBlog(@Param("start") int start, @Param("end") int end, @Param("tid") Long tid);
+    List<Blog> listTagIncludeBlog(@Param("start") int start, @Param("end") int end, @Param("tid") Long tid);
 
     /**
      * 当前分类所拥有的博客数
@@ -171,4 +171,10 @@ public interface IBlogDao {
      * @return 返回搜索得到的数量
      */
     int countSearch(String query);
+
+    /**
+     * 返回所有博客的完整信息（分类，标签）
+     * @return 返回博客列表
+     */
+    List<Blog> listBlogAll();
 }

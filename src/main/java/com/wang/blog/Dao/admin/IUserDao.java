@@ -18,4 +18,11 @@ public interface IUserDao {
      * @return 返回得到User
      */
     public User findByUser(@Param("username") String username, @Param("password") String password);
+
+    /**
+     * 通过用户名查找用户信息
+     * @param username 用户名
+     * @return 返回用户
+     */
+    User loadUserByName(@Param("username") String username);
 }
