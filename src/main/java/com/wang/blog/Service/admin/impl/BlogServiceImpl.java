@@ -217,7 +217,8 @@ public class BlogServiceImpl implements IBlogService {
     @Override
     public List<Blog> listBlogByTime() {
         checkSize();
-        return blogByRedis.listBlogWithUpTime();
+        List<Blog> blogs = blogByRedis.listBlogWithUpTime();
+        return blogs.subList(0,5);
     }
 
 

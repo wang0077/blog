@@ -35,16 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/admin/**").hasRole("admin")
                 .and().authorizeRequests().antMatchers("/admin","/admin/login","/*.html","/*.ioc","/*.css","/*.js","/*.png").permitAll()
-                .and().formLogin().successHandler(new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                User user = (User) authentication.getPrincipal();
-                user.setPassword(null);
-                HttpSession session = request.getSession();
-                session.setAttribute("user",user);
-                session.setMaxInactiveInterval(0);
-            }
-        })
+                .and().formLogin().successHandler((request, response, authentication) -> {
+                    User user = (User) authentication.getPrincipal();
+                    user.setPassword(null);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user",user);
+                    session.setMaxInactiveInterval(0);
+                })
                 .loginPage("/admin")
                 .loginProcessingUrl("/admin/login").permitAll()
                 .successForwardUrl("/admin/successLogin")
@@ -55,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+        System.out.println(new BCryptPasswordEncoder().encode("Wangsi12"));
         return new BCryptPasswordEncoder();
     }
 
