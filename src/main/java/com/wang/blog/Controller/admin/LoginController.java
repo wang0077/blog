@@ -48,6 +48,7 @@ public class LoginController {
         User user = (User) authentication.getPrincipal();
         user.setPassword(null);
         session.setAttribute("user",user);
+        session.setMaxInactiveInterval(0);
         return "admin/index";
     }
 
