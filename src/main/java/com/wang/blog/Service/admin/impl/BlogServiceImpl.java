@@ -275,6 +275,7 @@ public class BlogServiceImpl implements IBlogService {
         blog.setViews(0);
         blogDao.saveBlog(blog);
 //        再次获取博客Id,对标签进行存储
+        blog = blogDao.getBlogByTitle(blog.getTitle());
         Long bid = blog.getId();
         for (Tag tag : tags){
             blogDao.saveBlogTag(bid,tag.getTag_id());
