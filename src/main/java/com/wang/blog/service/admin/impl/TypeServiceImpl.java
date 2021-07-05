@@ -1,6 +1,5 @@
 package com.wang.blog.service.admin.impl;
 
-import com.sun.org.apache.regexp.internal.RE;
 import com.wang.blog.bean.Page;
 import com.wang.blog.bean.Tag;
 import com.wang.blog.bean.Type;

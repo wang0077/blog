@@ -1,4 +1,4 @@
-package com.wang.blog.component.bloomfilter;
+package com.wang.blog.component.bloomFilter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.hash.Funnel;
