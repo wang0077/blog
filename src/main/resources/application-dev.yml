@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
-    username: root
+    url: jdbc:mysql://159.75.20.118:3306/blog?serverTimezone=UTC
+    username: blog
     password: 228913
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
@@ -22,7 +22,7 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   redis:
-    host: 127.0.0.1
+    host: 159.75.20.118
     password: 228913
 
 mybatis:
